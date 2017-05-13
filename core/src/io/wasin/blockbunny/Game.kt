@@ -6,9 +6,16 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
-class BlockBunny : ApplicationAdapter() {
+class Game : ApplicationAdapter() {
     lateinit internal var batch: SpriteBatch
     lateinit internal var img: Texture
+
+    companion object {
+        const val TITLE = "Block Bunny"
+        const val V_WIDTH = 320
+        const val V_HEIGHT = 240
+        const val SCALE = 2
+    }
 
     override fun create() {
         batch = SpriteBatch()

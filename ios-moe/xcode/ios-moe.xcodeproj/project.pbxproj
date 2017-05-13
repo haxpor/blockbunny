@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		093EA0331288EEC18D3C79EC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E152A74253836079FA1075F /* main.cpp */; };
 		16479D2CDCAC394B9A9722FE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8084D1F0A307440EC73CBFCA /* main.cpp */; };
+		2F8029F7B350EB84B90CFC00 /* moe-main-interfaces.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF7A8DFF2EEA792E8CAEF05 /* moe-main-interfaces.m */; };
 		581773911E37A0F0004E28A9 /* Default-375w-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 581773851E37A0F0004E28A9 /* Default-375w-667h@2x.png */; };
 		581773921E37A0F0004E28A9 /* Default-414w-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 581773861E37A0F0004E28A9 /* Default-414w-736h@3x.png */; };
 		581773931E37A0F0004E28A9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 581773871E37A0F0004E28A9 /* Default-568h@2x.png */; };
@@ -57,9 +58,10 @@
 		581773AD1E37A7EF004E28A9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5863B87B1DA682C800E46B6A /* ios-moe-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-moe-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5863B88E1DA682C800E46B6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		58C6F5241DA66CB600309CB6 /* BlockBunny.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BlockBunny.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		58C6F5241DA66CB600309CB6 /* BlockBunny.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockBunny.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C6F5381DA66CB600309CB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8084D1F0A307440EC73CBFCA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		9AF7A8DFF2EEA792E8CAEF05 /* moe-main-interfaces.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "moe-main-interfaces.m"; path = "../build/moe/main/ui-headers/moe-main-interfaces.m"; sourceTree = "<group>"; };
 		C995F7161EAA5D0A003E34E1 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../android/assets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,6 +131,7 @@
 				5863B87C1DA682C800E46B6A /* ios-moe-Test */,
 				58C6F5251DA66CB600309CB6 /* Products */,
 				5817739E1E37A2DA004E28A9 /* Frameworks */,
+				CB6251A847BEFA12D966B125 /* Multi-OS Engine */,
 			);
 			sourceTree = "<group>";
 		};
@@ -170,6 +173,14 @@
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
+		};
+		CB6251A847BEFA12D966B125 /* Multi-OS Engine */ = {
+			isa = PBXGroup;
+			name = "Multi-OS Engine";
+			sourceTree = "<group>";
+			children = (
+				9AF7A8DFF2EEA792E8CAEF05 /* moe-main-interfaces.m */,
+			);
 		};
 /* End PBXGroup section */
 
@@ -224,6 +235,7 @@
 					};
 					58C6F5231DA66CB600309CB6 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = XGKHW634KL;
 					};
 				};
 			};
@@ -321,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16479D2CDCAC394B9A9722FE /* main.cpp in Sources */,
+				2F8029F7B350EB84B90CFC00 /* moe-main-interfaces.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,7 +368,7 @@
 					"$(inherited)",
 					"${MOE_OTHER_LDFLAGS}",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.wasin.blockbunny";
+				PRODUCT_BUNDLE_IDENTIFIER = io.wasin.blockbunny;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_STYLE = "non-global";
 			};
@@ -389,7 +402,7 @@
 					"$(inherited)",
 					"${MOE_OTHER_LDFLAGS}",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.wasin.blockbunny";
+				PRODUCT_BUNDLE_IDENTIFIER = io.wasin.blockbunny;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_STYLE = "non-global";
 			};
@@ -488,6 +501,7 @@
 			baseConfigurationReference = 5817739D1E37A10D004E28A9 /* custom.xcconfig */;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = XGKHW634KL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -513,8 +527,8 @@
 					"${MOE_OTHER_LDFLAGS}",
 					"$(LIBGDX_NATIVES)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.wasin.blockbunny";
-				PRODUCT_NAME = "BlockBunny";
+				PRODUCT_BUNDLE_IDENTIFIER = io.wasin.blockbunny;
+				PRODUCT_NAME = BlockBunny;
 				STRIP_STYLE = "non-global";
 			};
 			name = Debug;
@@ -524,6 +538,7 @@
 			baseConfigurationReference = 5817739D1E37A10D004E28A9 /* custom.xcconfig */;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = XGKHW634KL;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -549,8 +564,8 @@
 					"${MOE_OTHER_LDFLAGS}",
 					"$(LIBGDX_NATIVES)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "io.wasin.blockbunny";
-				PRODUCT_NAME = "BlockBunny";
+				PRODUCT_BUNDLE_IDENTIFIER = io.wasin.blockbunny;
+				PRODUCT_NAME = BlockBunny;
 				STRIP_STYLE = "non-global";
 			};
 			name = Release;
