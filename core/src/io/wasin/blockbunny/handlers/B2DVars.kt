@@ -10,7 +10,6 @@ class B2DVars {
 
         // category bits
         const val BIT_GROUND: Short = 2
-        const val BIT_BOX: Short = 4
-        const val BIT_BALL: Short = 8
+        const val BIT_PLAYER: Short = 4
     }
 }

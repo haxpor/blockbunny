@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import io.wasin.blockbunny.handlers.GameStateManager
+import io.wasin.blockbunny.handlers.MyInput
+import io.wasin.blockbunny.handlers.MyInputProcessor
 
 class Game : ApplicationAdapter() {
     lateinit var sb: SpriteBatch
@@ -29,6 +31,9 @@ class Game : ApplicationAdapter() {
     }
 
     override fun create() {
+
+        Gdx.input.inputProcessor = MyInputProcessor()
+
         sb = SpriteBatch()
         cam = OrthographicCamera()
         cam.setToOrtho(false, V_WIDTH, V_HEIGHT)
@@ -43,6 +48,7 @@ class Game : ApplicationAdapter() {
             accum -= STEP
             gsm.update(STEP)
             gsm.render()
+            MyInput.update()
         }
     }
 
