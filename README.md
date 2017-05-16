@@ -1,6 +1,6 @@
 # blockbunny
 
-Libgdx-based game for Android, iOS, and PC following the tutorial by [ForeignGuyMike](https://www.youtube.com/channel/UC_IV37n-uBpRp64hQIwywWQ) on youtube channel starting at [https://www.youtube.com/watch?v=85A1w1iD2oA](https://www.youtube.com/watch?v=85A1w1iD2oA)
+Libgdx-based game for Android, iOS, and PC following the tutorial by [ForeignGuyMike](https://www.youtube.com/channel/UC_IV37n-uBpRp64hQIwywWQ) on youtube channel starting at [this](https://www.youtube.com/watch?v=85A1w1iD2oA)
 
 # Overview
 
@@ -10,7 +10,7 @@ The assets and idea follows the original project which written in Java on Eclips
 
 # Credits
 
-Bit shoutout to ForeignGuyMike for making a great tutorial video that this project builds upon on top of that.
+Bit shoutout to *ForeignGuyMike* for making a great tutorial video that this project builds upon on top of that.
 
 # License
 
