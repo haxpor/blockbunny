@@ -9,7 +9,9 @@ class B2DVars {
         const val PPM: Float = 100f
 
         // category bits
-        const val BIT_GROUND: Short = 2
-        const val BIT_PLAYER: Short = 4
+        const val BIT_PLAYER: Short = 2
+        const val BIT_RED: Short = 4
+        const val BIT_GREEN: Short = 8
+        const val BIT_BLUE: Short = 16
     }
 }
