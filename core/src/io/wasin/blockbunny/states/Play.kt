@@ -109,6 +109,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // create player
         player = Player(body)
+        // circular reference from body->player, and player->body
+        body.userData = player
     }
 
     private fun createTiles() {
