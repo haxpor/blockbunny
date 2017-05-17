@@ -106,7 +106,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         tileMap = TmxMapLoader().load("maps/test.tmx")
         tmr = OrthogonalTiledMapRenderer(tileMap)
 
-        tileSize = (tileMap.properties.get("tilewidth") as Int).toFloat()
+        tileSize = tileMap.properties.get("tilewidth", Float::class.java)
 
         // note: this section is not optimized, the code loops 3 times for each layer unneccesary
         // we can do better by adding custom property to Tile via color name and check it in 1 single loop
