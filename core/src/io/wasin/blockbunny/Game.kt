@@ -43,6 +43,7 @@ class Game : ApplicationAdapter() {
         gsm = GameStateManager(this)
 
         res.loadTexture("images/bunny.png", "bunny")
+        res.loadTexture("images/crystal.png", "crystal")
 
         // set to begin with Play state
         gsm.pushState(GameStateManager.PLAY)

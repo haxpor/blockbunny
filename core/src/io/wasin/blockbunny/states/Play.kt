@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
 import io.wasin.blockbunny.Game
+import io.wasin.blockbunny.entities.Crystal
 import io.wasin.blockbunny.entities.Player
 import io.wasin.blockbunny.handlers.GameStateManager
 import io.wasin.blockbunny.handlers.MyContactListener
@@ -20,6 +21,8 @@ import io.wasin.blockbunny.handlers.MyInput
  * Created by haxpor on 5/16/17.
  */
 class Play(gsm: GameStateManager) : GameState(gsm) {
+
+    private var debug: Boolean = false
 
     private var world: World
     private var b2dr: Box2DDebugRenderer
@@ -31,6 +34,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     lateinit private var tmr: OrthogonalTiledMapRenderer
 
     lateinit private var player: Player
+    lateinit private var crystals: MutableList<Crystal>
 
     init {
         world = World(Vector2(0f, -9.81f), true)
@@ -45,6 +49,9 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // create tiles
         createTiles()
+
+        // create crystals
+        createCrystals()
 
         // set box2d cam
         b2dCam = OrthographicCamera()
@@ -64,6 +71,10 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         handleInput()
         world.step(dt, 6, 2)
         player.update(dt)
+
+        for (c in crystals) {
+            c.update(dt)
+        }
     }
 
     override fun render() {
@@ -78,8 +89,15 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         sb.projectionMatrix = cam.combined
         player.render(sb)
 
+        // draw crystals
+        for (c in crystals) {
+            c.render(sb)
+        }
+
         // draw box2d world
-        b2dr.render(world, b2dCam.combined)
+        if (debug) {
+            b2dr.render(world, b2dCam.combined)
+        }
     }
 
     override fun dispose() {
@@ -160,6 +178,36 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
                 world.createBody(bdef).createFixture(fdef)
             }
+        }
+    }
+
+    private fun createCrystals() {
+        crystals = mutableListOf()
+        val layer = tileMap.layers.get("crystals")
+
+        val bdef = BodyDef()
+        val fdef = FixtureDef()
+
+        for (mo in layer.objects) {
+            bdef.type = BodyDef.BodyType.StaticBody
+            val x = mo.properties.get("x", Float::class.java) / B2DVars.PPM
+            val y = mo.properties.get("y", Float::class.java) / B2DVars.PPM
+            bdef.position.set(x, y)
+
+            val cshape = CircleShape()
+            cshape.radius = 8f / B2DVars.PPM
+
+            fdef.shape = cshape
+            fdef.isSensor = true
+            fdef.filter.categoryBits = B2DVars.BIT_CRYSTAL
+            fdef.filter.maskBits = B2DVars.BIT_PLAYER
+
+            val body = world.createBody(bdef)
+            body.createFixture(fdef)
+
+            val c = Crystal(body)
+            body.userData = c
+            crystals.add(c)
         }
     }
 }
