@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import io.wasin.blockbunny.handlers.Content
 import io.wasin.blockbunny.handlers.GameStateManager
 import io.wasin.blockbunny.handlers.MyInput
 import io.wasin.blockbunny.handlers.MyInputProcessor
@@ -28,6 +29,12 @@ class Game : ApplicationAdapter() {
         const val V_HEIGHT = 240f
         const val SCALE = 2
         const val STEP = 1 / 60f
+
+        var res: Content
+
+        init {
+            res = Content()
+        }
     }
 
     override fun create() {
@@ -40,6 +47,8 @@ class Game : ApplicationAdapter() {
         hudCam = OrthographicCamera()
         hudCam.setToOrtho(false, V_WIDTH, V_HEIGHT)
         gsm = GameStateManager(this)
+
+        res.loadTexture("images/bunny.png", "bunny")
     }
 
     override fun render() {
@@ -50,6 +59,11 @@ class Game : ApplicationAdapter() {
             gsm.render()
             MyInput.update()
         }
+
+        sb.projectionMatrix = hudCam.combined
+        sb.begin()
+        sb.draw(res.getTexture("bunny"), 0f, 0f)
+        sb.end()
     }
 
     override fun dispose() {
