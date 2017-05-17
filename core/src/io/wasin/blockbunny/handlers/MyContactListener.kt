@@ -7,24 +7,22 @@ import com.badlogic.gdx.physics.box2d.*
  */
 class MyContactListener : ContactListener {
 
-    // get() and set() here is not necessary, but used here for demonstration
-    // for kotlin syntax
-    // use 'field' to access to its backing field
+    private var numFootContacts: Int = 0
+
     var playerOnGround: Boolean = false
-        get() = field
-        private set(value) {
-            field = value
-        }
+        get() = numFootContacts > 0
 
     override fun beginContact(contact: Contact?) {
         val fa: Fixture? = contact?.fixtureA
         val fb: Fixture? = contact?.fixtureB
 
-        if (fa?.userData != null && fa?.userData.equals("foot")) {
-            playerOnGround = true
+        if (fa == null || fb == null) return
+
+        if (fa!!.userData != null && fa!!.userData.equals("foot")) {
+            numFootContacts++
         }
-        if (fb?.userData != null && fb?.userData.equals("foot")) {
-            playerOnGround = true
+        if (fb!!.userData != null && fb!!.userData.equals("foot")) {
+            numFootContacts++
         }
     }
 
@@ -32,11 +30,13 @@ class MyContactListener : ContactListener {
         val fa: Fixture? = contact?.fixtureA
         val fb: Fixture? = contact?.fixtureB
 
-        if (fa?.userData != null && fa?.userData.equals("foot")) {
-            playerOnGround = false
+        if (fa == null || fb == null) return
+
+        if (fa!!.userData != null && fa!!.userData.equals("foot")) {
+            numFootContacts--
         }
-        if (fb?.userData != null && fb?.userData.equals("foot")) {
-            playerOnGround = false
+        if (fb!!.userData != null && fb!!.userData.equals("foot")) {
+            numFootContacts--
         }
     }
 
