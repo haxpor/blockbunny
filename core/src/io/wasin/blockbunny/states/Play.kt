@@ -93,14 +93,14 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         bdef.position.set(160f / B2DVars.PPM, 200f / B2DVars.PPM)
         bdef.type = BodyDef.BodyType.DynamicBody
         val body: Body = world.createBody(bdef)
-        shape.setAsBox(5f / B2DVars.PPM,5f / B2DVars.PPM)
+        shape.setAsBox(13f / B2DVars.PPM, 13f / B2DVars.PPM)
         fdef.shape = shape
         fdef.filter.categoryBits = B2DVars.BIT_PLAYER
         fdef.filter.maskBits = B2DVars.BIT_RED
         body.createFixture(fdef).userData = "player"
 
         // create foot sensor
-        shape.setAsBox(2 / B2DVars.PPM, 2 / B2DVars.PPM, Vector2(0f, -5 / B2DVars.PPM), 0f)
+        shape.setAsBox(13 / B2DVars.PPM, 2 / B2DVars.PPM, Vector2(0f, -13 / B2DVars.PPM), 0f)
         fdef.shape = shape
         fdef.filter.categoryBits = B2DVars.BIT_PLAYER
         fdef.filter.maskBits = B2DVars.BIT_RED
