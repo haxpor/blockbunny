@@ -22,7 +22,7 @@ import io.wasin.blockbunny.handlers.MyInput
  */
 class Play(gsm: GameStateManager) : GameState(gsm) {
 
-    private var debug: Boolean = false
+    private var debug: Boolean = true
 
     private var world: World
     private var b2dr: Box2DDebugRenderer
@@ -181,6 +181,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
                 val fdef = FixtureDef()
                 fdef.shape = cs
+                fdef.friction = 0f
                 fdef.filter.categoryBits = bits
                 fdef.filter.maskBits = B2DVars.BIT_PLAYER
 
