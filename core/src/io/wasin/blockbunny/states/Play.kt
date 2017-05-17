@@ -16,6 +16,7 @@ import io.wasin.blockbunny.entities.Player
 import io.wasin.blockbunny.handlers.GameStateManager
 import io.wasin.blockbunny.handlers.MyContactListener
 import io.wasin.blockbunny.handlers.MyInput
+import kotlin.experimental.or
 
 /**
  * Created by haxpor on 5/16/17.
@@ -62,7 +63,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // player jump
         if (MyInput.isPressed(MyInput.BUTTON1)) {
             if (cl.playerOnGround) {
-                player.body.applyForceToCenter(0f, 200f, true)
+                player.body.applyForceToCenter(0f, 250f, true)
             }
         }
     }
@@ -70,6 +71,16 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     override fun update(dt: Float) {
         handleInput()
         world.step(dt, 6, 2)
+
+        // remove crystals
+        var bodies = cl.bodiesToRemove
+        for (b in bodies) {
+            crystals.removeIf { c -> c == b.userData as Crystal }
+            world.destroyBody(b)
+            player.collectCrystal()
+        }
+        bodies.clear()
+
         player.update(dt)
 
         for (c in crystals) {
@@ -106,7 +117,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     private fun createPlayer() {
         val bdef = BodyDef()
 
-        bdef.position.set(160f / B2DVars.PPM, 200f / B2DVars.PPM)
+        bdef.position.set(100f / B2DVars.PPM, 200f / B2DVars.PPM)
         bdef.type = BodyDef.BodyType.DynamicBody
         bdef.linearVelocity.set(0.1f, 0f)
 
@@ -118,7 +129,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         shape.setAsBox(13f / B2DVars.PPM, 13f / B2DVars.PPM)
         fdef.shape = shape
         fdef.filter.categoryBits = B2DVars.BIT_PLAYER
-        fdef.filter.maskBits = B2DVars.BIT_RED
+        fdef.filter.maskBits = B2DVars.BIT_RED or B2DVars.BIT_CRYSTAL
         body.createFixture(fdef).userData = "player"
 
         // reuse
@@ -212,7 +223,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
             fdef.filter.maskBits = B2DVars.BIT_PLAYER
 
             val body = world.createBody(bdef)
-            body.createFixture(fdef)
+            body.createFixture(fdef).userData = "crystal"
 
             val c = Crystal(body)
             body.userData = c
