@@ -8,11 +8,7 @@ import com.badlogic.gdx.graphics.Texture
  */
 class Content {
 
-    private var textures: HashMap<String, Texture>
-
-    init {
-        textures = HashMap<String, Texture>()
-    }
+    private var textures: HashMap<String, Texture> = HashMap()
 
     fun loadTexture(path: String, key: String) {
         val tex = Texture(Gdx.files.internal(path))
@@ -20,7 +16,7 @@ class Content {
     }
 
     fun getTexture(key: String) : Texture? {
-        return textures.get(key)
+        return textures[key]
     }
 
     fun disposeTexture(key: String) {

@@ -18,7 +18,6 @@ class GameStateManager(game: Game) {
     init {
         this.game = game
         this.gameStates = Stack<GameState>()
-        this.pushState(PLAY)
     }
 
     companion object {

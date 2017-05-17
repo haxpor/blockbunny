@@ -5,19 +5,23 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 /**
  * Created by haxpor on 5/17/17.
  */
-class Animation(frames: Array<TextureRegion>, delay: Float) {
+class Animation{
 
-    private var frames: Array<TextureRegion> = frames
+    private var frames: Array<TextureRegion>? = null
     private var time: Float = 1.0f
-    private var delay: Float = delay
+    private var delay: Float = 1/12f
     private var currentFrame: Int = 1
     private var timesPlayed: Int = 0
 
-    init {
-        setFrames(frames, delay)
+    constructor() { }
+
+    constructor(frames: Array<TextureRegion>) {
+        setFrames(frames, 1/12f)
     }
 
-    constructor(frames: Array<TextureRegion>) : this(frames, 1/12f) { }
+    constructor(frames: Array<TextureRegion>, delay: Float) {
+        setFrames(frames, delay)
+    }
 
     fun setFrames(frames: Array<TextureRegion>, delay: Float) {
         this.frames = frames
@@ -28,6 +32,10 @@ class Animation(frames: Array<TextureRegion>, delay: Float) {
     }
 
     fun update(dt: Float) {
+        // it's not making any sense to update if frames is null, or has zero insize
+        if (frames == null || frames?.size == 0)
+            return
+
         if (delay <= 0f) return
         time += dt
         while (time >= delay) {
@@ -38,14 +46,17 @@ class Animation(frames: Array<TextureRegion>, delay: Float) {
     private fun step() {
         time -= delay
         currentFrame++
-        if (currentFrame == frames.size) {
+        if (currentFrame == frames!!.size) {
             currentFrame = 0
             timesPlayed++
         }
     }
 
-    fun getFrame() : TextureRegion {
-        return frames[currentFrame]
+    fun getCurrentFrame() : TextureRegion? {
+        if (frames == null || frames?.size == 0)
+            return null
+        else
+            return frames!![currentFrame]
     }
 
     fun getTimesPlayed() : Int {

@@ -2,9 +2,7 @@ package io.wasin.blockbunny
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import io.wasin.blockbunny.handlers.Content
 import io.wasin.blockbunny.handlers.GameStateManager
@@ -30,11 +28,7 @@ class Game : ApplicationAdapter() {
         const val SCALE = 2
         const val STEP = 1 / 60f
 
-        var res: Content
-
-        init {
-            res = Content()
-        }
+        var res: Content = Content()
     }
 
     override fun create() {
@@ -49,6 +43,9 @@ class Game : ApplicationAdapter() {
         gsm = GameStateManager(this)
 
         res.loadTexture("images/bunny.png", "bunny")
+
+        // set to begin with Play state
+        gsm.pushState(GameStateManager.PLAY)
     }
 
     override fun render() {
@@ -59,11 +56,6 @@ class Game : ApplicationAdapter() {
             gsm.render()
             MyInput.update()
         }
-
-        sb.projectionMatrix = hudCam.combined
-        sb.begin()
-        sb.draw(res.getTexture("bunny"), 0f, 0f)
-        sb.end()
     }
 
     override fun dispose() {

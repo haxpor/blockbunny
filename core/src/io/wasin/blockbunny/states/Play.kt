@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
 import io.wasin.blockbunny.Game
+import io.wasin.blockbunny.entities.Player
 import io.wasin.blockbunny.handlers.GameStateManager
 import io.wasin.blockbunny.handlers.MyContactListener
 import io.wasin.blockbunny.handlers.MyInput
@@ -22,13 +23,14 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
     private var world: World
     private var b2dr: Box2DDebugRenderer
-    lateinit private var playerBody: Body
     private var b2dCam: OrthographicCamera
     private var cl: MyContactListener
 
     lateinit private var tileMap: TiledMap
     private var tileSize: Float = 0f
     lateinit private var tmr: OrthogonalTiledMapRenderer
+
+    lateinit private var player: Player
 
     init {
         world = World(Vector2(0f, -9.81f), true)
@@ -53,7 +55,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // player jump
         if (MyInput.isPressed(MyInput.BUTTON1)) {
             if (cl.playerOnGround) {
-                playerBody.applyForceToCenter(0f, 200f, true)
+                player.body.applyForceToCenter(0f, 200f, true)
             }
         }
     }
@@ -61,6 +63,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     override fun update(dt: Float) {
         handleInput()
         world.step(dt, 6, 2)
+        player.update(dt)
     }
 
     override fun render() {
@@ -70,6 +73,10 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // draw tile map
         tmr.setView(cam)
         tmr.render()
+
+        // draw player
+        sb.projectionMatrix = cam.combined
+        player.render(sb)
 
         // draw box2d world
         b2dr.render(world, b2dCam.combined)
@@ -85,12 +92,12 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         bdef.position.set(160f / B2DVars.PPM, 200f / B2DVars.PPM)
         bdef.type = BodyDef.BodyType.DynamicBody
-        playerBody = world.createBody(bdef)
+        val body: Body = world.createBody(bdef)
         shape.setAsBox(5f / B2DVars.PPM,5f / B2DVars.PPM)
         fdef.shape = shape
         fdef.filter.categoryBits = B2DVars.BIT_PLAYER
         fdef.filter.maskBits = B2DVars.BIT_RED
-        playerBody.createFixture(fdef).userData = "player"
+        body.createFixture(fdef).userData = "player"
 
         // create foot sensor
         shape.setAsBox(2 / B2DVars.PPM, 2 / B2DVars.PPM, Vector2(0f, -5 / B2DVars.PPM), 0f)
@@ -98,7 +105,10 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         fdef.filter.categoryBits = B2DVars.BIT_PLAYER
         fdef.filter.maskBits = B2DVars.BIT_RED
         fdef.isSensor = true
-        playerBody.createFixture(fdef).userData = "foot"
+        body.createFixture(fdef).userData = "foot"
+
+        // create player
+        player = Player(body)
     }
 
     private fun createTiles() {
