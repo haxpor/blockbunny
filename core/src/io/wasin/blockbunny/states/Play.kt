@@ -12,10 +12,13 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
 import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.entities.Crystal
+import io.wasin.blockbunny.entities.HUD
 import io.wasin.blockbunny.entities.Player
 import io.wasin.blockbunny.handlers.GameStateManager
 import io.wasin.blockbunny.handlers.MyContactListener
 import io.wasin.blockbunny.handlers.MyInput
+import kotlin.experimental.and
+import kotlin.experimental.inv
 import kotlin.experimental.or
 
 /**
@@ -36,6 +39,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
     lateinit private var player: Player
     lateinit private var crystals: MutableList<Crystal>
+    lateinit private var hud: HUD
 
     init {
         world = World(Vector2(0f, -9.81f), true)
@@ -57,6 +61,9 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // set box2d cam
         b2dCam = OrthographicCamera()
         b2dCam.setToOrtho(false, Game.V_WIDTH / B2DVars.PPM, Game.V_HEIGHT / B2DVars.PPM)
+
+        // set up HUD
+        hud = HUD(player)
     }
 
     override fun handleInput() {
@@ -65,6 +72,11 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
             if (cl.playerOnGround) {
                 player.body.applyForceToCenter(0f, 250f, true)
             }
+        }
+
+        // switch block color
+        if (MyInput.isPressed(MyInput.BUTTON2)) {
+            switchBlocks()
         }
     }
 
@@ -92,6 +104,10 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // clear screen
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
+        // set camera to follow player
+        cam.position.set(player.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
+        cam.update()
+
         // draw tile map
         tmr.setView(cam)
         tmr.render()
@@ -105,8 +121,14 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
             c.render(sb)
         }
 
+        // draw hud
+        sb.projectionMatrix = hudCam.combined
+        hud.render(sb)
+
         // draw box2d world
         if (debug) {
+            b2dCam.position.set(cam.position.x / B2DVars.PPM, cam.position.y / B2DVars.PPM, 0f)
+            b2dCam.update()
             b2dr.render(world, b2dCam.combined)
         }
     }
@@ -119,7 +141,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         bdef.position.set(100f / B2DVars.PPM, 200f / B2DVars.PPM)
         bdef.type = BodyDef.BodyType.DynamicBody
-        bdef.linearVelocity.set(0.1f, 0f)
+        bdef.linearVelocity.set(1f, 0f)
 
         // shape, and fdef
         var shape = PolygonShape()
@@ -229,5 +251,40 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
             body.userData = c
             crystals.add(c)
         }
+    }
+
+    private fun switchBlocks() {
+        val body = player.body.fixtureList.first()
+        val foot = player.body.fixtureList[1]
+
+        // get current bits set on player's body
+        var bits = body.filterData.maskBits
+        // temp filter data to hold data and set back to each fixture
+        var tmpFilterData: Filter
+
+        // switch to next color
+        // red -> green -> blue -> red
+        if ((bits and B2DVars.BIT_RED) != 0.toShort()) {
+            bits = bits and B2DVars.BIT_RED.inv()
+            bits = bits or B2DVars.BIT_GREEN
+        }
+        else if ((bits and B2DVars.BIT_GREEN) != 0.toShort()) {
+            bits = bits and B2DVars.BIT_GREEN.inv()
+            bits = bits or B2DVars.BIT_BLUE
+        }
+        else if ((bits and B2DVars.BIT_BLUE) != 0.toShort()) {
+            bits = bits and B2DVars.BIT_BLUE.inv()
+            bits = bits or B2DVars.BIT_RED
+        }
+
+        // set new mask bits to body
+        tmpFilterData = body.filterData
+        tmpFilterData.maskBits = bits
+        body.filterData = tmpFilterData
+
+        // set new mask bits to foot
+        tmpFilterData = foot.filterData
+        tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv()
+        foot.filterData = tmpFilterData
     }
 }
