@@ -26,7 +26,7 @@ import kotlin.experimental.or
  */
 class Play(gsm: GameStateManager) : GameState(gsm) {
 
-    private var debug: Boolean = true
+    private var b2dDebug: Boolean = false
 
     var b2dViewport: Viewport
     var b2dCam: OrthographicCamera
@@ -145,7 +145,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         hud.render(sb)
 
         // draw box2d world
-        if (debug) {
+        if (b2dDebug) {
             b2dCam.position.set(cam.position.x / B2DVars.PPM, cam.position.y / B2DVars.PPM, 0f)
             b2dCam.update()
             b2dr.render(world, b2dCam.combined)
@@ -323,7 +323,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // update underlying component
         for (b in bgs) {
-            b.updateToNewScreenSize(width, height)
+            b.updateScreenSize(width, height)
         }
     }
 }

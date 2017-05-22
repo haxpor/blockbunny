@@ -1,6 +1,7 @@
 package io.wasin.blockbunny.handlers
 
 import io.wasin.blockbunny.Game
+import io.wasin.blockbunny.interfaces.ScreenSizeChangedUpdatable
 import io.wasin.blockbunny.states.GameState
 import io.wasin.blockbunny.states.Play
 
@@ -10,7 +11,7 @@ import java.util.Stack
  * Created by haxpor on 5/14/17.
  */
 
-class GameStateManager(game: Game) {
+class GameStateManager(game: Game): ScreenSizeChangedUpdatable {
     var game: Game
         private set
     private var gameStates: Stack<GameState>
@@ -51,7 +52,7 @@ class GameStateManager(game: Game) {
         g.dispose()
     }
 
-    fun updateScreenSize(width: Int, height: Int) {
+    override fun updateScreenSize(width: Int, height: Int) {
         this.gameStates.peek().updateScreenSize(width, height)
     }
 }

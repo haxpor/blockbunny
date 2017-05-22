@@ -6,15 +6,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.viewport.Viewport
 import io.wasin.blockbunny.Game
+import io.wasin.blockbunny.interfaces.ScreenSizeChangedUpdatable
 
 /**
  * Created by haxpor on 5/21/17.
  */
-class Background(image: TextureRegion, gameCam: OrthographicCamera, scale: Float) {
+class Background(image: TextureRegion, gameCam: OrthographicCamera, scale: Float): ScreenSizeChangedUpdatable {
 
     private var image: TextureRegion = image
     private var cam: OrthographicCamera = gameCam
-    //private var viewport: Viewport = viewport
 
     var scale: Float = scale
         private set
@@ -29,8 +29,6 @@ class Background(image: TextureRegion, gameCam: OrthographicCamera, scale: Float
         numXDraw = Math.ceil((cam.viewportWidth / this.image.regionWidth).toDouble()).toInt() + 1
         position.x = (cam.viewportWidth/2 - cam.position.x) * scale
         position.y = (cam.viewportHeight/2 - cam.position.y) * scale
-
-        println("viewportWidth before: ${cam.viewportWidth} | cam.position.x: ${cam.position.x}")
     }
 
     fun update(dt: Float) {
@@ -52,7 +50,7 @@ class Background(image: TextureRegion, gameCam: OrthographicCamera, scale: Float
         sb.end()
     }
 
-    fun updateToNewScreenSize(width: Int, height: Int) {
+    override fun updateScreenSize(width: Int, height: Int) {
         numXDraw = Math.ceil((cam.viewportWidth / this.image.regionWidth).toDouble()).toInt() + 1
         position.x = (cam.viewportWidth/2 - cam.position.x) * scale
         position.y = (cam.viewportHeight/2 - cam.position.y) * scale

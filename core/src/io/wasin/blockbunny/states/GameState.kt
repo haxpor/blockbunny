@@ -4,11 +4,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.handlers.GameStateManager
+import io.wasin.blockbunny.interfaces.ScreenSizeChangedUpdatable
 
 /**
  * Created by haxpor on 5/14/17.
  */
-abstract class GameState(gsm: GameStateManager) {
+abstract class GameState(gsm: GameStateManager): ScreenSizeChangedUpdatable {
     protected var gsm: GameStateManager
 
     // for convenient in reference and use in derived class
@@ -29,5 +30,4 @@ abstract class GameState(gsm: GameStateManager) {
     abstract fun update(dt: Float)
     abstract fun render()
     abstract fun dispose()
-    abstract fun updateScreenSize(width: Int, height: Int)
 }

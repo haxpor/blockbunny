@@ -23,14 +23,11 @@ class Game : ApplicationAdapter() {
     lateinit var gsm: GameStateManager
         private set
 
-    private var accum: Float = 0.0f
-
     companion object {
         const val TITLE = "Block Bunny"
         const val V_WIDTH = 320f
         const val V_HEIGHT = 240f
         const val SCALE = 2
-        const val STEP = 1 / 60f
 
         var res: Content = Content()
     }
@@ -64,13 +61,10 @@ class Game : ApplicationAdapter() {
     }
 
     override fun render() {
-        accum += Gdx.graphics.deltaTime
-        while(accum >= STEP) {
-            accum -= STEP
-            gsm.update(STEP)
-            gsm.render()
-            MyInput.update()
-        }
+        Gdx.graphics.setTitle(TITLE + " -- FPS: " + Gdx.graphics.framesPerSecond)
+        gsm.update(Gdx.graphics.deltaTime)
+        gsm.render()
+        MyInput.update()
     }
 
     override fun dispose() {
