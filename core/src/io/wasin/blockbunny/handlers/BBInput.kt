@@ -3,8 +3,15 @@ package io.wasin.blockbunny.handlers
 /**
  * Created by haxpor on 5/16/17.
  */
-class MyInput {
+class BBInput {
     companion object {
+
+        var x: Int = 0
+        var y: Int = 0
+
+        var down: Boolean = false
+        var pdown: Boolean = false
+
         const val NUM_KEYS: Int = 2
         const val BUTTON1: Int = 0
         const val BUTTON2: Int = 1
@@ -13,6 +20,9 @@ class MyInput {
         var pkeys: Array<Boolean> = Array<Boolean>(NUM_KEYS, { i -> false})
 
         fun update() {
+            // update previous down
+            pdown = down
+
             for (i in 0..NUM_KEYS-1) {
                 pkeys[i] = keys[i]
             }
@@ -28,6 +38,18 @@ class MyInput {
 
         fun setKey(i: Int, b: Boolean) {
             keys[i] = b
+        }
+
+        fun isDown(): Boolean {
+            return down
+        }
+
+        fun isPressed(): Boolean {
+            return down && !pdown
+        }
+
+        fun isReleased(): Boolean {
+            return pdown && !down
         }
     }
 }

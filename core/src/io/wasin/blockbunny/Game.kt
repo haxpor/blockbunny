@@ -34,7 +34,7 @@ class Game : ApplicationAdapter() {
 
     override fun create() {
 
-        Gdx.input.inputProcessor = MyInputProcessor()
+        Gdx.input.inputProcessor = BBInputProcessor()
 
         sb = SpriteBatch()
 
@@ -54,17 +54,17 @@ class Game : ApplicationAdapter() {
         res.loadTexture("images/bunny.png", "bunny")
         res.loadTexture("images/crystal.png", "crystal")
         res.loadTexture("images/hud.png", "hud")
-        res.loadTexture("images/bgs.png", "bg")
+        res.loadTexture("images/bgs.png", "bgs")
 
         // set to begin with Play state
-        gsm.pushState(GameStateManager.PLAY)
+        gsm.pushState(GameStateManager.LEVEL_SELECTION)
     }
 
     override fun render() {
         Gdx.graphics.setTitle(TITLE + " -- FPS: " + Gdx.graphics.framesPerSecond)
         gsm.update(Gdx.graphics.deltaTime)
         gsm.render()
-        MyInput.update()
+        BBInput.update()
     }
 
     override fun dispose() {

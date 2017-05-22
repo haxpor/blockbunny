@@ -76,14 +76,14 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
     override fun handleInput() {
         // player jump
-        if (MyInput.isPressed(MyInput.BUTTON1)) {
+        if (BBInput.isPressed(BBInput.BUTTON1)) {
             if (cl.playerOnGround) {
                 player.body.applyForceToCenter(0f, 250f, true)
             }
         }
 
         // switch block color
-        if (MyInput.isPressed(MyInput.BUTTON2)) {
+        if (BBInput.isPressed(BBInput.BUTTON2)) {
             switchBlocks()
         }
     }
@@ -308,7 +308,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     }
 
     private fun createBackgrounds() {
-        val texture = Game.res.getTexture("bg")!!
+        val texture = Game.res.getTexture("bgs")!!
         val textureRegions = TextureRegion.split(texture, texture.width, texture.height / 3)
 
         val sky = Background(textureRegions[0][0], hudCam, 0.0f)

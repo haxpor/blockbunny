@@ -3,6 +3,7 @@ package io.wasin.blockbunny.handlers
 import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.interfaces.ScreenSizeChangedUpdatable
 import io.wasin.blockbunny.states.GameState
+import io.wasin.blockbunny.states.LevelSelection
 import io.wasin.blockbunny.states.Play
 
 import java.util.Stack
@@ -22,7 +23,8 @@ class GameStateManager(game: Game): ScreenSizeChangedUpdatable {
     }
 
     companion object {
-        const val PLAY = 912837
+        const val PLAY = 5000
+        const val LEVEL_SELECTION = 5001
     }
 
     fun update(dt: Float) {
@@ -35,6 +37,7 @@ class GameStateManager(game: Game): ScreenSizeChangedUpdatable {
 
     private fun getState(state: Int): GameState? {
         if (state == PLAY)  return Play(this)
+        else if (state == LEVEL_SELECTION)  return LevelSelection(this)
         return null
     }
 
