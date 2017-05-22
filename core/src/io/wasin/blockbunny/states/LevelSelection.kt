@@ -4,17 +4,21 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import io.wasin.blockbunny.Game
-import io.wasin.blockbunny.handlers.Background
-import io.wasin.blockbunny.handlers.GameStateManager
-import io.wasin.blockbunny.handlers.TextRenderer
+import io.wasin.blockbunny.handlers.*
 
 /**
  * Created by haxpor on 5/22/17.
  */
 class LevelSelection(gsm: GameStateManager): GameState(gsm) {
 
+    companion object {
+        // FIXME: This value is fixed as of now due to algorithm to render takes time to make it right, don't change this value!
+        const val LEVEL_NUM: Int = 15
+    }
+
     private var bg: Background
     lateinit private var textRenderer: TextRenderer
+    lateinit private var levelButtons: Array<LevelButton>
 
     init {
         var bgTexture = Game.res.getTexture("bgs")!!
@@ -22,9 +26,10 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         bg = Background(bgTextureRegion, hudCam, 0f)
 
         createTextRenderer()
+        createLevelButtons(LEVEL_NUM)
     }
 
-    fun createTextRenderer() {
+    private fun createTextRenderer() {
         val texture = Game.res.getTexture("hud")!!
         var numberRegions = arrayListOf<TextureRegion>()
 
@@ -50,12 +55,38 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         textRenderer = TextRenderer(numberRegions.toTypedArray(), slashRegion)
     }
 
+    private fun createLevelButtons(forNumLevel: Int) {
+        val tex = Game.res.getTexture("hud")!!
+        val baseTexRegion = TextureRegion(tex, 32, 32)
+
+        val tmpList = arrayListOf<LevelButton>()
+
+        // design for 5x5 in total of 25 matches the value set in LEVEL_NUM
+        for (i in 0..4) {
+            for (j in 0..2) {
+                val b = LevelButton(baseTexRegion, (i+1)+(j*5), false, 64f/2f + (i * 64f), hudCam.viewportHeight - 64f - (j * 64f))
+                b.setOnClickListener { level -> this.onLevelButtonClick(level) }
+                tmpList.add(b)
+            }
+        }
+
+        levelButtons = tmpList.toTypedArray()
+    }
+
+    private fun onLevelButtonClick(level: Int) {
+        println("clicked on ${level}")
+    }
+
     override fun handleInput() {
     }
 
     override fun update(dt: Float) {
         handleInput()
         bg.update(dt)
+
+        for (b in levelButtons) {
+            b.update(dt)
+        }
     }
 
     override fun render() {
@@ -64,6 +95,10 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
 
         sb.projectionMatrix = hudCam.combined
         bg.render(sb)
+
+        for (b in levelButtons) {
+            b.render(textRenderer, sb)
+        }
     }
 
     override fun dispose() {
