@@ -9,28 +9,28 @@ import com.badlogic.gdx.InputAdapter
 class BBInputProcessor : InputAdapter() {
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-        BBInput.x = screenX
-        BBInput.y = screenY
+        BBInput.screenX = screenX
+        BBInput.screenY = screenY
         return true
     }
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        BBInput.x = screenX
-        BBInput.y = screenY
+        BBInput.screenX = screenX
+        BBInput.screenY = screenY
         BBInput.down = true
         return true
     }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        BBInput.x = screenX
-        BBInput.y = screenY
+        BBInput.screenX = screenX
+        BBInput.screenY = screenY
         BBInput.down = false
         return true
     }
 
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-        BBInput.x = screenX
-        BBInput.y = screenY
+        BBInput.screenX = screenX
+        BBInput.screenY = screenY
         BBInput.down = true
         return true
     }

@@ -251,8 +251,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         for (mo in layer.objects) {
             bdef.type = BodyDef.BodyType.StaticBody
-            val x = mo.properties.get("x", Float::class.java) / B2DVars.PPM
-            val y = mo.properties.get("y", Float::class.java) / B2DVars.PPM
+            val x = mo.properties.get("screenX", Float::class.java) / B2DVars.PPM
+            val y = mo.properties.get("screenY", Float::class.java) / B2DVars.PPM
             bdef.position.set(x, y)
 
             val cshape = CircleShape()

@@ -6,8 +6,8 @@ package io.wasin.blockbunny.handlers
 class BBInput {
     companion object {
 
-        var x: Int = 0
-        var y: Int = 0
+        var screenX: Int = 0
+        var screenY: Int = 0
 
         var down: Boolean = false
         var pdown: Boolean = false
