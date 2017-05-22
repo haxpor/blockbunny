@@ -10,6 +10,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.utils.viewport.ExtendViewport
+import com.badlogic.gdx.utils.viewport.Viewport
 import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.entities.Crystal
 import io.wasin.blockbunny.entities.HUD
@@ -26,9 +28,12 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
     private var debug: Boolean = true
 
+    var b2dViewport: Viewport
+    var b2dCam: OrthographicCamera
+        private set
+
     private var world: World
     private var b2dr: Box2DDebugRenderer
-    private var b2dCam: OrthographicCamera
     private var cl: MyContactListener
 
     lateinit private var tileMap: TiledMap
@@ -57,9 +62,10 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // create crystals
         createCrystals()
 
-        // set box2d cam
+        // set up box2d camera
         b2dCam = OrthographicCamera()
         b2dCam.setToOrtho(false, Game.V_WIDTH / B2DVars.PPM, Game.V_HEIGHT / B2DVars.PPM)
+        b2dViewport = ExtendViewport(Game.V_WIDTH / B2DVars.PPM, Game.V_HEIGHT / B2DVars.PPM, b2dCam)
 
         // set up HUD
         hud = HUD(player)
@@ -310,5 +316,14 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         val rocks = Background(textureRegions[2][0], hudCam, 8.0f)
 
         bgs = arrayOf(sky, cloud, rocks)
+    }
+
+    override fun updateScreenSize(width: Int, height: Int) {
+        b2dViewport.update(width, height)
+
+        // update underlying component
+        for (b in bgs) {
+            b.updateToNewScreenSize(width, height)
+        }
     }
 }

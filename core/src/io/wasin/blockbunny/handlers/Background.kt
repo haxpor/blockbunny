@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.utils.viewport.Viewport
 import io.wasin.blockbunny.Game
 
 /**
@@ -13,6 +14,7 @@ class Background(image: TextureRegion, gameCam: OrthographicCamera, scale: Float
 
     private var image: TextureRegion = image
     private var cam: OrthographicCamera = gameCam
+    //private var viewport: Viewport = viewport
 
     var scale: Float = scale
         private set
@@ -24,9 +26,11 @@ class Background(image: TextureRegion, gameCam: OrthographicCamera, scale: Float
     init {
         // calculate how many time we need to draw across x-direction
         // num draw will be at least 2
-        numXDraw = Math.ceil((Game.V_WIDTH / this.image.regionWidth).toDouble()).toInt() + 1
+        numXDraw = Math.ceil((cam.viewportWidth / this.image.regionWidth).toDouble()).toInt() + 1
         position.x = (cam.viewportWidth/2 - cam.position.x) * scale
         position.y = (cam.viewportHeight/2 - cam.position.y) * scale
+
+        println("viewportWidth before: ${cam.viewportWidth} | cam.position.x: ${cam.position.x}")
     }
 
     fun update(dt: Float) {
@@ -43,10 +47,14 @@ class Background(image: TextureRegion, gameCam: OrthographicCamera, scale: Float
             val x = (((position.x + cam.viewportWidth/2 - cam.position.x)*scale)% image.regionWidth) + (i * image.regionWidth)
             val y = (position.y + cam.viewportHeight/2 - cam.position.y)*scale
 
-            //println("${image.regionY} : ${x}")
-
             sb.draw(image, x, y)
         }
         sb.end()
+    }
+
+    fun updateToNewScreenSize(width: Int, height: Int) {
+        numXDraw = Math.ceil((cam.viewportWidth / this.image.regionWidth).toDouble()).toInt() + 1
+        position.x = (cam.viewportWidth/2 - cam.position.x) * scale
+        position.y = (cam.viewportHeight/2 - cam.position.y) * scale
     }
 }

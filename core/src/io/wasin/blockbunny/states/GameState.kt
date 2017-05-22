@@ -29,4 +29,5 @@ abstract class GameState(gsm: GameStateManager) {
     abstract fun update(dt: Float)
     abstract fun render()
     abstract fun dispose()
+    abstract fun updateScreenSize(width: Int, height: Int)
 }

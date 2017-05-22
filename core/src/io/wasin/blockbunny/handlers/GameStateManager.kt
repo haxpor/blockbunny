@@ -50,4 +50,8 @@ class GameStateManager(game: Game) {
         val g = this.gameStates.pop()
         g.dispose()
     }
+
+    fun updateScreenSize(width: Int, height: Int) {
+        this.gameStates.peek().updateScreenSize(width, height)
+    }
 }
