@@ -1,9 +1,11 @@
 package io.wasin.blockbunny.handlers
 
+import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.Vector3
 
 /**
  * Created by haxpor on 5/22/17.
@@ -28,16 +30,20 @@ class LevelButton(textureRegion: TextureRegion, levelNumber: Int, isClear: Boole
         this.listener = listener
     }
 
-    fun update(dt: Float) {
-        // check if there is a touch down on itself then
-        // notify listener immediately (if it's not null)
-        if (BBInput.isPressed() && bounds.contains(BBInput.x.toFloat(), BBInput.y.toFloat())) {
-            listener?.invoke(levelNumber)
+    fun update(cam: OrthographicCamera, dt: Float) {
+
+        if (BBInput.isPressed()) {
+            // convert from screen position into world position to check collision (clicking)
+            val screenCoor = Vector3(BBInput.x.toFloat(), BBInput.y.toFloat(), 0f)
+            val worldCoor = cam.unproject(screenCoor)
+
+            if (bounds.contains(worldCoor.x, worldCoor.y)) {
+                listener?.invoke(levelNumber)
+            }
         }
     }
 
     fun render(textRenderer: TextRenderer, sb: SpriteBatch) {
-        sb.begin()
         // draw base
         sb.draw(region, position.x - region.regionWidth/2f, position.y - region.regionHeight/2f)
         // draw text on top based on whether the level is clear or not
@@ -51,6 +57,5 @@ class LevelButton(textureRegion: TextureRegion, levelNumber: Int, isClear: Boole
             // draw at the center of the base
             textRenderer.renderNumber(levelNumber, position.x, position.y, sb)
         }
-        sb.end()
     }
 }

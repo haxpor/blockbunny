@@ -3,6 +3,7 @@ package io.wasin.blockbunny.states
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.Vector3
 import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.handlers.*
 
@@ -61,6 +62,7 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
 
         val tmpList = arrayListOf<LevelButton>()
 
+        // FIXME: Make it not fixed, but responsive to current viewport width
         // design for 5x5 in total of 25 matches the value set in LEVEL_NUM
         for (i in 0..4) {
             for (j in 0..2) {
@@ -85,7 +87,7 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         bg.update(dt)
 
         for (b in levelButtons) {
-            b.update(dt)
+            b.update(hudCam, dt)
         }
     }
 
@@ -96,9 +98,11 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         sb.projectionMatrix = hudCam.combined
         bg.render(sb)
 
+        sb.begin()
         for (b in levelButtons) {
             b.render(textRenderer, sb)
         }
+        sb.end()
     }
 
     override fun dispose() {
