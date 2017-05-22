@@ -18,13 +18,13 @@ class Background(image: TextureRegion, gameCam: OrthographicCamera, scale: Float
 
     var scale: Float = scale
         private set
-    var velocity: Vector2 = Vector2(-1f, 0f)    // default is to move along x-direction only
+    var velocity: Vector2 = Vector2(-1f, 0f)    // default is to move along screenX-direction only
 
     private var numXDraw: Int
     private var position: Vector2 = Vector2.Zero
 
     init {
-        // calculate how many time we need to draw across x-direction
+        // calculate how many time we need to draw across screenX-direction
         // num draw will be at least 2
         numXDraw = Math.ceil((cam.viewportWidth / this.image.regionWidth).toDouble()).toInt() + 1
         position.x = (cam.viewportWidth/2 - cam.position.x) * scale

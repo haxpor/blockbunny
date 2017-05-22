@@ -4,7 +4,7 @@ Libgdx-based game for Android, iOS, and PC following the tutorial by [ForeignGuy
 
 # Overview
 
-This project follows along with tutorial but code written in Kotlin `1.1.2` on Android Studio `2.3.1` with Gradle `2.x`.
+This project follows along with tutorial but code written in Kotlin `1.1.2` on Android Studio `2.3.1` with Gradle `2.screenX`.
 
 The assets and idea follows the original project which written in Java on Eclipse; originally based on desktop only, this project will make it buildable and runnable on Android, iOS (via multi-OS engine), and PC.
 

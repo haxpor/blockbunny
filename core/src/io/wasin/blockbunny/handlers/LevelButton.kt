@@ -34,7 +34,7 @@ class LevelButton(textureRegion: TextureRegion, levelNumber: Int, isClear: Boole
 
         if (BBInput.isPressed()) {
             // convert from screen position into world position to check collision (clicking)
-            val screenCoor = Vector3(BBInput.x.toFloat(), BBInput.y.toFloat(), 0f)
+            val screenCoor = Vector3(BBInput.screenX.toFloat(), BBInput.screenY.toFloat(), 0f)
             val worldCoor = cam.unproject(screenCoor)
 
             if (bounds.contains(worldCoor.x, worldCoor.y)) {
