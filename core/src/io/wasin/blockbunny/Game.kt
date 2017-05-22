@@ -4,12 +4,16 @@ import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.utils.viewport.FitViewport
+import com.badlogic.gdx.utils.viewport.Viewport
 import io.wasin.blockbunny.handlers.Content
 import io.wasin.blockbunny.handlers.GameStateManager
 import io.wasin.blockbunny.handlers.MyInput
 import io.wasin.blockbunny.handlers.MyInputProcessor
 
 class Game : ApplicationAdapter() {
+
+    lateinit var viewport: Viewport
     lateinit var sb: SpriteBatch
         private set
     lateinit var cam: OrthographicCamera
@@ -42,6 +46,10 @@ class Game : ApplicationAdapter() {
         hudCam.setToOrtho(false, V_WIDTH, V_HEIGHT)
         gsm = GameStateManager(this)
 
+        // use approach of fit viewport strategy when screen size changes
+        // this strategy will have black gutter on the side but ratio is maintained
+        viewport = FitViewport(Game.V_WIDTH, Game.V_HEIGHT, cam)
+
         res.loadTexture("images/bunny.png", "bunny")
         res.loadTexture("images/crystal.png", "crystal")
         res.loadTexture("images/hud.png", "hud")
@@ -62,5 +70,9 @@ class Game : ApplicationAdapter() {
     }
 
     override fun dispose() {
+    }
+
+    override fun resize(width: Int, height: Int) {
+        viewport.update(width, height)
     }
 }
