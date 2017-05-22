@@ -39,7 +39,6 @@ class Background(image: TextureRegion, gameCam: OrthographicCamera, scale: Float
 
     fun render(sb: SpriteBatch) {
 
-        sb.begin()
         for (i in 0..numXDraw-1) {
 
             val x = (((position.x + cam.viewportWidth/2 - cam.position.x)*scale)% image.regionWidth) + (i * image.regionWidth)
@@ -47,7 +46,6 @@ class Background(image: TextureRegion, gameCam: OrthographicCamera, scale: Float
 
             sb.draw(image, x, y)
         }
-        sb.end()
     }
 
     override fun updateScreenSize(width: Int, height: Int) {

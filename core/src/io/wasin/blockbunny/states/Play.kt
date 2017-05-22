@@ -123,6 +123,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // clear screen
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
+        sb.begin()
         // set camera to follow player
         cam.position.set(player.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
         cam.update()
@@ -132,11 +133,14 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         for (b in bgs) {
             b.render(sb)
         }
+        sb.end()
 
         // draw tile map
         tmr.setView(cam)
         tmr.render()
 
+        
+        sb.begin()
         // draw player
         sb.projectionMatrix = cam.combined
         player.render(sb)
@@ -156,6 +160,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
             b2dCam.update()
             b2dr.render(world, b2dCam.combined)
         }
+        sb.end()
     }
 
     override fun dispose() {

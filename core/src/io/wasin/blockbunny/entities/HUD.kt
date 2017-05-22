@@ -24,7 +24,6 @@ class HUD(player: Player) {
     fun render(sb: SpriteBatch) {
         val bits = player.body.fixtureList.first().filterData.maskBits
 
-        sb.begin()
         if ((bits and B2DVars.BIT_RED) != 0.toShort()) {
             sb.draw(blocks[0], 40f, 200f)
         }
@@ -34,6 +33,5 @@ class HUD(player: Player) {
         if ((bits and B2DVars.BIT_BLUE) != 0.toShort()) {
             sb.draw(blocks[2], 40f, 200f)
         }
-        sb.end()
     }
 }
