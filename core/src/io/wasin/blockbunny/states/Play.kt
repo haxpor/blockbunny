@@ -26,6 +26,12 @@ import kotlin.experimental.or
  */
 class Play(gsm: GameStateManager) : GameState(gsm) {
 
+    companion object {
+        // level number to be set before entering Play game state by LevelSelection
+        // default to 1st level
+        var sToPlayLevel: Int = 1
+    }
+
     private var b2dDebug: Boolean = false
 
     var b2dViewport: Viewport
@@ -192,8 +198,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     }
 
     private fun createTiles() {
-        // load tile map
-        tileMap = TmxMapLoader().load("maps/test.tmx")
+        // load tile map from selected level
+        tileMap = TmxMapLoader().load("maps/level${sToPlayLevel}.tmx")
         tmr = OrthogonalTiledMapRenderer(tileMap)
 
         tileSize = tileMap.properties.get("tilewidth", Float::class.java)
