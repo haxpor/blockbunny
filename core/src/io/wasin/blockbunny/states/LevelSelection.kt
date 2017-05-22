@@ -101,13 +101,15 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         // clear screen
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
+        sb.begin()
+
         sb.projectionMatrix = hudCam.combined
         bg.render(sb)
 
-        sb.begin()
         for (b in levelButtons) {
             b.render(textRenderer, sb)
         }
+
         sb.end()
     }
 

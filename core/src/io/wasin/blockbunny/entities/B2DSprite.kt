@@ -39,11 +39,9 @@ open class B2DSprite(body: Body) {
     }
 
     fun render(sb: SpriteBatch) {
-        sb.begin()
         sb.draw(
                 animation.getCurrentFrame(),
                 body.position.x * B2DVars.PPM - width / 2,
                 body.position.y * B2DVars.PPM - height / 2)
-        sb.end()
     }
 }
