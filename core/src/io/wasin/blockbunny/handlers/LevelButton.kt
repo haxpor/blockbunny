@@ -24,7 +24,6 @@ class LevelButton(textureRegion: TextureRegion, levelNumber: Int, isClear: Boole
 
     init {
         bounds = Rectangle(x - region.regionWidth/2f, y - region.regionHeight/2f, region.regionWidth.toFloat(), region.regionHeight.toFloat())
-        //println("${bounds.x} ${bounds.y} ${bounds.width} ${bounds.height}")
     }
 
     fun setOnClickListener(listener: (Int) -> Unit) {
@@ -39,8 +38,6 @@ class LevelButton(textureRegion: TextureRegion, levelNumber: Int, isClear: Boole
             val worldCoor = cam.unproject(screenCoor)
 
             if (bounds.contains(worldCoor.x, worldCoor.y)) {
-                //println("${bounds.x} ${bounds.y} ${bounds.width} ${bounds.height}")
-                //println("${BBInput.x} ${BBInput.y} | ${levelNumber}")
                 listener?.invoke(levelNumber)
             }
         }
