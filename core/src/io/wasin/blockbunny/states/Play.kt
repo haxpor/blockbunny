@@ -1,9 +1,9 @@
 package io.wasin.blockbunny.states
 
-import io.wasin.blockbunny.handlers.B2DVars
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
@@ -14,9 +14,7 @@ import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.entities.Crystal
 import io.wasin.blockbunny.entities.HUD
 import io.wasin.blockbunny.entities.Player
-import io.wasin.blockbunny.handlers.GameStateManager
-import io.wasin.blockbunny.handlers.MyContactListener
-import io.wasin.blockbunny.handlers.MyInput
+import io.wasin.blockbunny.handlers.*
 import kotlin.experimental.and
 import kotlin.experimental.inv
 import kotlin.experimental.or
@@ -39,7 +37,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
     lateinit private var player: Player
     lateinit private var crystals: MutableList<Crystal>
-    lateinit private var hud: HUD
+    private var hud: HUD
+    lateinit private var bgs: Array<Background>
 
     init {
         world = World(Vector2(0f, -9.81f), true)
@@ -64,6 +63,9 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // set up HUD
         hud = HUD(player)
+
+        // backgrouds
+        createBackgrounds()
     }
 
     override fun handleInput() {
@@ -83,6 +85,11 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     override fun update(dt: Float) {
         handleInput()
         world.step(dt, 6, 2)
+
+        // update backgrounds
+        for (b in bgs) {
+            b.update(dt)
+        }
 
         // remove crystals
         var bodies = cl.bodiesToRemove
@@ -107,6 +114,12 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // set camera to follow player
         cam.position.set(player.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
         cam.update()
+
+        // draw bgs
+        sb.projectionMatrix = hudCam.combined
+        for (b in bgs) {
+            b.render(sb)
+        }
 
         // draw tile map
         tmr.setView(cam)
@@ -286,5 +299,16 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         tmpFilterData = foot.filterData
         tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv()
         foot.filterData = tmpFilterData
+    }
+
+    private fun createBackgrounds() {
+        val texture = Game.res.getTexture("bg")!!
+        val textureRegions = TextureRegion.split(texture, texture.width, texture.height / 3)
+
+        val sky = Background(textureRegions[0][0], hudCam, 0.0f)
+        val cloud = Background(textureRegions[1][0], hudCam, 1.0f)
+        val rocks = Background(textureRegions[2][0], hudCam, 8.0f)
+
+        bgs = arrayOf(sky, cloud, rocks)
     }
 }
