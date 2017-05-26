@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.utils.viewport.Viewport
 
 /**
  * Created by haxpor on 5/22/17.
@@ -30,12 +31,12 @@ class LevelButton(textureRegion: TextureRegion, levelNumber: Int, isClear: Boole
         this.listener = listener
     }
 
-    fun update(cam: OrthographicCamera, dt: Float) {
+    fun update(cam: OrthographicCamera, viewport: Viewport, dt: Float) {
 
         if (BBInput.isPressed()) {
             // convert from screen position into world position to check collision (clicking)
             val screenCoor = Vector3(BBInput.screenX.toFloat(), BBInput.screenY.toFloat(), 0f)
-            val worldCoor = cam.unproject(screenCoor)
+            val worldCoor = cam.unproject(screenCoor, viewport.screenX.toFloat(), viewport.screenY.toFloat(), viewport.screenWidth.toFloat(), viewport.screenHeight.toFloat())
 
             if (bounds.contains(worldCoor.x, worldCoor.y)) {
                 listener?.invoke(levelNumber)

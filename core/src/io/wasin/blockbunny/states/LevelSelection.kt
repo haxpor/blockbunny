@@ -3,7 +3,6 @@ package io.wasin.blockbunny.states
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import com.badlogic.gdx.math.Vector3
 import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.handlers.*
 
@@ -93,7 +92,7 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         bg.update(dt)
 
         for (b in levelButtons) {
-            b.update(hudCam, dt)
+            b.update(hudCam, gsm.game.hudViewport, dt)
         }
     }
 
@@ -115,9 +114,5 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
 
     override fun dispose() {
 
-    }
-
-    override fun updateScreenSize(width: Int, height: Int) {
-        bg.updateScreenSize(width, height)
     }
 }
