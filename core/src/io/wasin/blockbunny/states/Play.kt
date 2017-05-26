@@ -328,13 +328,4 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         bgs = arrayOf(sky, cloud, rocks)
     }
-
-    override fun updateScreenSize(width: Int, height: Int) {
-        b2dViewport.update(width, height)
-
-        // update underlying component
-        for (b in bgs) {
-            b.updateScreenSize(width, height)
-        }
-    }
 }

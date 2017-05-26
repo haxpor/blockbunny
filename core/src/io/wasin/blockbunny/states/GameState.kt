@@ -2,14 +2,14 @@ package io.wasin.blockbunny.states
 
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.utils.viewport.Viewport
 import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.handlers.GameStateManager
-import io.wasin.blockbunny.interfaces.ScreenSizeChangedUpdatable
 
 /**
  * Created by haxpor on 5/14/17.
  */
-abstract class GameState(gsm: GameStateManager): ScreenSizeChangedUpdatable {
+abstract class GameState(gsm: GameStateManager) {
     protected var gsm: GameStateManager
 
     // for convenient in reference and use in derived class
@@ -17,6 +17,8 @@ abstract class GameState(gsm: GameStateManager): ScreenSizeChangedUpdatable {
     protected val sb: SpriteBatch
     protected val cam: OrthographicCamera
     protected val hudCam: OrthographicCamera
+    protected val camViewport: Viewport
+    protected val hudViewport: Viewport
 
     init {
         this.gsm = gsm
@@ -24,6 +26,8 @@ abstract class GameState(gsm: GameStateManager): ScreenSizeChangedUpdatable {
         this.sb = gsm.game.sb
         this.cam = gsm.game.cam
         this.hudCam = gsm.game.hudCam
+        this.camViewport = gsm.game.camViewport
+        this.hudViewport = gsm.game.hudViewport
     }
 
     abstract fun handleInput()

@@ -4,17 +4,17 @@ import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.utils.viewport.ExtendViewport
+import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import io.wasin.blockbunny.handlers.*
 
 class Game : ApplicationAdapter() {
 
+    lateinit var sb: SpriteBatch
+        private set
     lateinit var camViewport: Viewport
         private set
     lateinit var hudViewport: Viewport
-        private set
-    lateinit var sb: SpriteBatch
         private set
     lateinit var cam: OrthographicCamera
         private set
@@ -30,6 +30,7 @@ class Game : ApplicationAdapter() {
         const val SCALE = 2
 
         var res: Content = Content()
+            private set
     }
 
     override fun create() {
@@ -48,8 +49,8 @@ class Game : ApplicationAdapter() {
 
         gsm = GameStateManager(this)
 
-        camViewport = ExtendViewport(Game.V_WIDTH, Game.V_HEIGHT, cam)
-        hudViewport = ExtendViewport(Game.V_WIDTH, Game.V_HEIGHT, hudCam)
+        camViewport = FitViewport(Game.V_WIDTH, Game.V_HEIGHT, cam)
+        hudViewport = FitViewport(Game.V_WIDTH, Game.V_HEIGHT, hudCam)
 
         res.loadTexture("images/bunny.png", "bunny")
         res.loadTexture("images/crystal.png", "crystal")
@@ -73,8 +74,5 @@ class Game : ApplicationAdapter() {
     override fun resize(width: Int, height: Int) {
         camViewport.update(width, height)
         hudViewport.update(width, height, true)
-
-        // also propagate resizing event to game state manager
-        gsm.updateScreenSize(width, height)
     }
 }
