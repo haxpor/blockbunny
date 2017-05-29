@@ -78,9 +78,11 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         println("clicked on ${level}")
 
         // TODO: Relax this for general to be able to play for all levels, not fix to 1 for safety
-        if (level == 1) {
-            Play.sToPlayLevel = level
-            gsm.setState(GameStateManager.PLAY)
+        when (level) {
+            in 1..2 -> {
+                Play.sToPlayLevel = level
+                gsm.setState(GameStateManager.PLAY)
+            }
         }
     }
 

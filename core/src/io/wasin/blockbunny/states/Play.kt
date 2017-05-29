@@ -32,7 +32,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         var sToPlayLevel: Int = 1
     }
 
-    private var b2dDebug: Boolean = false
+    private var b2dDebug: Boolean = true
 
     var b2dViewport: Viewport
     var b2dCam: OrthographicCamera
@@ -124,6 +124,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         sb.begin()
+
         // set camera to follow player
         cam.position.set(player.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
         cam.update()
@@ -153,6 +154,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // draw hud
         sb.projectionMatrix = hudCam.combined
         hud.render(sb)
+        sb.end()
 
         // draw box2d world
         if (b2dDebug) {
@@ -160,7 +162,6 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
             b2dCam.update()
             b2dr.render(world, b2dCam.combined)
         }
-        sb.end()
     }
 
     override fun dispose() {
@@ -262,8 +263,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         for (mo in layer.objects) {
             bdef.type = BodyDef.BodyType.StaticBody
-            val x = mo.properties.get("screenX", Float::class.java) / B2DVars.PPM
-            val y = mo.properties.get("screenY", Float::class.java) / B2DVars.PPM
+            val x = mo.properties.get("x", Float::class.java) / B2DVars.PPM
+            val y = mo.properties.get("y", Float::class.java) / B2DVars.PPM
             bdef.position.set(x, y)
 
             val cshape = CircleShape()
