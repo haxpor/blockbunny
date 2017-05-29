@@ -52,6 +52,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     private var hud: HUD
     lateinit private var bgs: Array<Background>
 
+    private var screenStopper: ScreenStopper
+
     init {
         world = World(Vector2(0f, -9.81f), true)
 
@@ -80,6 +82,12 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // backgrouds
         createBackgrounds()
+
+        screenStopper = ScreenStopper(tileMap, cam)
+        screenStopper.setOnRearchEndOfLevel {  -> this.onReachEndOfLevel() }
+    }
+
+    fun onReachEndOfLevel() {
     }
 
     override fun handleInput() {
@@ -87,7 +95,6 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         if (BBInput.isPressed(BBInput.BUTTON1)) {
             if (cl.playerOnGround) {
                 player.body.applyForceToCenter(0f, 250f, true)
-                dummyPlayer.body.applyForceToCenter(0f, 250f, true)
             }
         }
 
@@ -116,11 +123,16 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         bodies.clear()
 
         player.update(dt)
-        dummyPlayer.update(dt)
+
+        if (!screenStopper.isStopped) {
+            dummyPlayer.update(dt)
+        }
 
         for (c in crystals) {
             c.update(dt)
         }
+
+        screenStopper.update(dt)
     }
 
     override fun render() {
@@ -130,8 +142,10 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         sb.begin()
 
         // set camera to follow player
-        cam.position.set(dummyPlayer.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
-        cam.update()
+        if (!screenStopper.isStopped) {
+            cam.position.set(dummyPlayer.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
+            cam.update()
+        }
 
         // draw bgs
         sb.projectionMatrix = hudCam.combined

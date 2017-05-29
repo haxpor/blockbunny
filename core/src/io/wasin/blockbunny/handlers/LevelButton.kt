@@ -19,7 +19,6 @@ class LevelButton(textureRegion: TextureRegion, levelNumber: Int, isClear: Boole
     var isClear: Boolean = isClear
         private set
     private var listener: ((Int) -> Unit)? = null
-        private set
     private var bounds: Rectangle
     private var position: Vector2 = Vector2(x, y)
 

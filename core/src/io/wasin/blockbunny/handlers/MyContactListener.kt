@@ -13,7 +13,7 @@ class MyContactListener : ContactListener {
 
     var playerOnGround: Boolean = false
         get() = numFootContacts > 0
-
+    
     override fun beginContact(contact: Contact?) {
         val fa: Fixture? = contact?.fixtureA
         val fb: Fixture? = contact?.fixtureB
@@ -33,6 +33,8 @@ class MyContactListener : ContactListener {
         if (fb!!.userData != null && fb!!.userData.equals("crystal")) {
             bodiesToRemove.add(fb.body)
         }
+
+
     }
 
     override fun endContact(contact: Contact?) {
