@@ -47,6 +47,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     lateinit private var tmr: OrthogonalTiledMapRenderer
 
     lateinit private var player: Player
+    lateinit private var dummyPlayer: Player
     lateinit private var crystals: MutableList<Crystal>
     private var hud: HUD
     lateinit private var bgs: Array<Background>
@@ -61,6 +62,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // create player
         createPlayer()
+        createDummyPlayer()
 
         // create tiles
         createTiles()
@@ -85,6 +87,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         if (BBInput.isPressed(BBInput.BUTTON1)) {
             if (cl.playerOnGround) {
                 player.body.applyForceToCenter(0f, 250f, true)
+                dummyPlayer.body.applyForceToCenter(0f, 250f, true)
             }
         }
 
@@ -113,6 +116,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         bodies.clear()
 
         player.update(dt)
+        dummyPlayer.update(dt)
 
         for (c in crystals) {
             c.update(dt)
@@ -126,7 +130,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         sb.begin()
 
         // set camera to follow player
-        cam.position.set(player.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
+        cam.position.set(dummyPlayer.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
         cam.update()
 
         // draw bgs
@@ -201,6 +205,28 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         player = Player(body)
         // circular reference from body->player, and player->body
         body.userData = player
+    }
+
+    private fun createDummyPlayer() {
+        // dummy player will be used to update camera's position
+        val bdef = BodyDef()
+
+        bdef.position.set(100f / B2DVars.PPM, 200f / B2DVars.PPM)
+        bdef.type = BodyDef.BodyType.KinematicBody  // it's kinematic type as we don't want it to be affected by physics simulation
+        bdef.linearVelocity.set(1f, 0f) // important, it needs to have the same linear velocity as of player
+
+        // shape, and fdef
+        var shape = PolygonShape()
+        var fdef = FixtureDef()
+
+        val body: Body = world.createBody(bdef)
+        shape.setAsBox(13f / B2DVars.PPM, 13f / B2DVars.PPM)
+        fdef.shape = shape
+        fdef.isSensor = true
+        body.createFixture(fdef)
+
+        // create dummy player
+        dummyPlayer = Player(body)
     }
 
     private fun createTiles() {
