@@ -13,7 +13,9 @@ class MyContactListener : ContactListener {
 
     var playerOnGround: Boolean = false
         get() = numFootContacts > 0
-    
+
+    var playerFrontCollided: Boolean = false
+
     override fun beginContact(contact: Contact?) {
         val fa: Fixture? = contact?.fixtureA
         val fb: Fixture? = contact?.fixtureB
@@ -34,7 +36,12 @@ class MyContactListener : ContactListener {
             bodiesToRemove.add(fb.body)
         }
 
-
+        if (fa!!.userData != null && fa!!.userData.equals("front")) {
+            playerFrontCollided = true
+        }
+        if (fb!!.userData != null && fb!!.userData.equals("front")) {
+            playerFrontCollided = true
+        }
     }
 
     override fun endContact(contact: Contact?) {

@@ -133,6 +133,12 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         }
 
         screenStopper.update(dt)
+
+        if (cl.playerFrontCollided && !player.died) {
+            Gdx.app.log("Play", "Player collided with tile at front")
+            screenStopper.stop()
+            player.actDie()
+        }
     }
 
     override fun render() {
@@ -214,6 +220,18 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         fdef.filter.maskBits = B2DVars.BIT_RED
         fdef.isSensor = true
         body.createFixture(fdef).userData = "foot"
+
+        // reuse
+        shape = PolygonShape()
+        fdef = FixtureDef()
+
+        // create front sensor
+        shape.setAsBox(2 / B2DVars.PPM, 6 / B2DVars.PPM, Vector2(13 / B2DVars.PPM, 0f), 0f)
+        fdef.shape = shape
+        fdef.filter.categoryBits = B2DVars.BIT_PLAYER
+        fdef.filter.maskBits = B2DVars.BIT_RED
+        fdef.isSensor = true
+        body.createFixture(fdef).userData = "front"
 
         // create player
         player = Player(body)
@@ -327,6 +345,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     private fun switchBlocks() {
         val body = player.body.fixtureList.first()
         val foot = player.body.fixtureList[1]
+        val front = player.body.fixtureList[2]
 
         // get current bits set on player's body
         var bits = body.filterData.maskBits
@@ -357,6 +376,11 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         tmpFilterData = foot.filterData
         tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv()
         foot.filterData = tmpFilterData
+
+        // set new mask bits to front
+        tmpFilterData = front.filterData
+        tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv()
+        front.filterData = tmpFilterData
     }
 
     private fun createBackgrounds() {
