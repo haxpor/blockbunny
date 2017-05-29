@@ -1,7 +1,9 @@
 package io.wasin.blockbunny.entities
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.physics.box2d.Filter
 import io.wasin.blockbunny.Game
 
 /**
@@ -11,6 +13,8 @@ class Player(body: Body) : B2DSprite(body) {
 
     private var numCrystals: Int = 0
     private var totalCrystals: Int = 0
+    var died: Boolean = false
+        private set
 
     init {
         val tex = Game.res.getTexture("bunny")
@@ -22,7 +26,7 @@ class Player(body: Body) : B2DSprite(body) {
         numCrystals++
     }
 
-    fun getNumCrystals() : Int {
+    fun getNumCrystals(): Int {
         return numCrystals
     }
 
@@ -30,7 +34,33 @@ class Player(body: Body) : B2DSprite(body) {
         totalCrystals = value
     }
 
-    fun getTotalCrystals() : Int {
+    fun getTotalCrystals(): Int {
         return totalCrystals
+    }
+
+    fun actDie() {
+        // set mask bit to none
+        // player will not anymore collide with anything
+        val center = body.fixtureList.first()
+        val foot = body.fixtureList[1]
+        val front = body.fixtureList[2]
+
+        var tmpFilterData: Filter
+
+        tmpFilterData = center.filterData
+        tmpFilterData.maskBits = 0
+        center.filterData = tmpFilterData
+
+        tmpFilterData = foot.filterData
+        tmpFilterData.maskBits = 0
+        foot.filterData = tmpFilterData
+
+        tmpFilterData = front.filterData
+        tmpFilterData.maskBits = 0
+        front.filterData = tmpFilterData
+
+        // apply force upward and slightly back
+        body.applyForce(Vector2(-70f, 250f), body.getWorldPoint(Vector2(1f, 1f)), true)
+        died = true
     }
 }

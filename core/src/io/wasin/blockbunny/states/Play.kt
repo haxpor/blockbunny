@@ -52,6 +52,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     private var hud: HUD
     lateinit private var bgs: Array<Background>
 
+    private var screenStopper: ScreenStopper
+
     init {
         world = World(Vector2(0f, -9.81f), true)
 
@@ -80,6 +82,12 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // backgrouds
         createBackgrounds()
+
+        screenStopper = ScreenStopper(tileMap, cam)
+        screenStopper.setOnRearchEndOfLevel {  -> this.onReachEndOfLevel() }
+    }
+
+    fun onReachEndOfLevel() {
     }
 
     override fun handleInput() {
@@ -87,7 +95,6 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         if (BBInput.isPressed(BBInput.BUTTON1)) {
             if (cl.playerOnGround) {
                 player.body.applyForceToCenter(0f, 250f, true)
-                dummyPlayer.body.applyForceToCenter(0f, 250f, true)
             }
         }
 
@@ -116,10 +123,21 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         bodies.clear()
 
         player.update(dt)
-        dummyPlayer.update(dt)
+
+        if (!screenStopper.isStopped) {
+            dummyPlayer.update(dt)
+        }
 
         for (c in crystals) {
             c.update(dt)
+        }
+
+        screenStopper.update(dt)
+
+        if (cl.playerFrontCollided && !player.died) {
+            Gdx.app.log("Play", "Player collided with tile at front")
+            screenStopper.stop()
+            player.actDie()
         }
     }
 
@@ -130,8 +148,10 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         sb.begin()
 
         // set camera to follow player
-        cam.position.set(dummyPlayer.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
-        cam.update()
+        if (!screenStopper.isStopped) {
+            cam.position.set(dummyPlayer.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
+            cam.update()
+        }
 
         // draw bgs
         sb.projectionMatrix = hudCam.combined
@@ -200,6 +220,18 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         fdef.filter.maskBits = B2DVars.BIT_RED
         fdef.isSensor = true
         body.createFixture(fdef).userData = "foot"
+
+        // reuse
+        shape = PolygonShape()
+        fdef = FixtureDef()
+
+        // create front sensor
+        shape.setAsBox(2 / B2DVars.PPM, 6 / B2DVars.PPM, Vector2(13 / B2DVars.PPM, 0f), 0f)
+        fdef.shape = shape
+        fdef.filter.categoryBits = B2DVars.BIT_PLAYER
+        fdef.filter.maskBits = B2DVars.BIT_RED
+        fdef.isSensor = true
+        body.createFixture(fdef).userData = "front"
 
         // create player
         player = Player(body)
@@ -313,6 +345,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     private fun switchBlocks() {
         val body = player.body.fixtureList.first()
         val foot = player.body.fixtureList[1]
+        val front = player.body.fixtureList[2]
 
         // get current bits set on player's body
         var bits = body.filterData.maskBits
@@ -343,6 +376,11 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         tmpFilterData = foot.filterData
         tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv()
         foot.filterData = tmpFilterData
+
+        // set new mask bits to front
+        tmpFilterData = front.filterData
+        tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv()
+        front.filterData = tmpFilterData
     }
 
     private fun createBackgrounds() {
