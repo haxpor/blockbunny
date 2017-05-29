@@ -38,6 +38,10 @@ class Player(body: Body) : B2DSprite(body) {
         return totalCrystals
     }
 
+    fun makeDirectDie() {
+        died = true
+    }
+
     fun actDie() {
         // set mask bit to none
         // player will not anymore collide with anything

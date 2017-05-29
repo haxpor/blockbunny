@@ -53,6 +53,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     lateinit private var bgs: Array<Background>
 
     private var screenStopper: ScreenStopper
+    private var isWentToScoreScreen: Boolean = false
 
     init {
         world = World(Vector2(0f, -9.81f), true)
@@ -80,11 +81,14 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // set up HUD
         hud = HUD(player)
 
-        // backgrouds
+        // backgrounds
         createBackgrounds()
 
         screenStopper = ScreenStopper(tileMap, cam)
         screenStopper.setOnRearchEndOfLevel {  -> this.onReachEndOfLevel() }
+
+        // set total of crystals in the map to player
+        player.setTotalCrystals(tileMap.layers.get("crystals").objects.count)
     }
 
     fun onReachEndOfLevel() {
@@ -134,10 +138,25 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         screenStopper.update(dt)
 
+        // check to act die for player
         if (cl.playerFrontCollided && !player.died) {
             Gdx.app.log("Play", "Player collided with tile at front")
             screenStopper.stop()
             player.actDie()
+        }
+
+        // if player is outside of the screen then go to SCORE screen
+        if (!isWentToScoreScreen && player.position.y * B2DVars.PPM + player.height/2 < 0f) {
+            Gdx.app.log("Play", "Player died and is outside of the screen")
+            gsm.pushState(GameStateManager.SCORE)
+            isWentToScoreScreen = true
+        }
+        // if player is outside of the total width of tilemap, then player clears the level
+        else if (!isWentToScoreScreen && player.position.x * B2DVars.PPM - player.width/2 > screenStopper.width) {
+            Gdx.app.log("Play", "Player clears the level")
+            gsm.setCurrentActiveLevelAsClear(player.getNumCrystals(), player.getTotalCrystals())
+            gsm.pushState(GameStateManager.SCORE)
+            isWentToScoreScreen = true
         }
     }
 
@@ -151,6 +170,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         if (!screenStopper.isStopped) {
             cam.position.set(dummyPlayer.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
             cam.update()
+            println("update")
         }
 
         // draw bgs

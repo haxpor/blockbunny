@@ -4,6 +4,7 @@ import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.states.GameState
 import io.wasin.blockbunny.states.LevelSelection
 import io.wasin.blockbunny.states.Play
+import io.wasin.blockbunny.states.Score
 
 import java.util.Stack
 
@@ -16,6 +17,10 @@ class GameStateManager(game: Game){
         private set
     private var gameStates: Stack<GameState>
 
+    private var isCurrentStateClear: Boolean = false
+    private var currentStateCystalsAmount: Int = 0
+    private var currentMaxCrystalAmount: Int = 0
+
     init {
         this.game = game
         this.gameStates = Stack<GameState>()
@@ -24,6 +29,7 @@ class GameStateManager(game: Game){
     companion object {
         const val PLAY = 5000
         const val LEVEL_SELECTION = 5001
+        const val SCORE = 5002
     }
 
     fun update(dt: Float) {
@@ -31,17 +37,27 @@ class GameStateManager(game: Game){
     }
 
     fun render() {
-        this.gameStates.peek().render()
+        for (state in this.gameStates) {
+            state.render()
+        }
     }
 
     private fun getState(state: Int): GameState? {
         if (state == PLAY)  return Play(this)
         else if (state == LEVEL_SELECTION)  return LevelSelection(this)
+        else if (state == SCORE) {
+            if (isCurrentStateClear) {
+                return Score(false, currentStateCystalsAmount, currentMaxCrystalAmount, this)
+            }
+            else {
+                return Score(this)
+            }
+        }
         return null
     }
 
     fun setState(state: Int) {
-        this.popState()
+        this.gameStates.clear()
         this.pushState(state)
     }
 
@@ -52,5 +68,21 @@ class GameStateManager(game: Game){
     fun popState() {
         val g = this.gameStates.pop()
         g.dispose()
+    }
+
+    fun setCurrentActiveLevelAsGameOver() {
+        isCurrentStateClear = false
+        currentStateCystalsAmount = 0
+        currentMaxCrystalAmount = 0
+    }
+
+    fun setCurrentActiveLevelAsClear(crystals: Int, maxCrystals: Int) {
+        isCurrentStateClear = true
+        currentStateCystalsAmount = crystals
+        currentMaxCrystalAmount = maxCrystals
+    }
+
+    fun resetPreviousActiveLevelState() {
+        setCurrentActiveLevelAsGameOver()
     }
 }
