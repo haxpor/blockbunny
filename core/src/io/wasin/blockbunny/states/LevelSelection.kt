@@ -81,6 +81,8 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         when (level) {
             in 1..2 -> {
                 Play.sToPlayLevel = level
+                // clear state of score screen
+                gsm.resetPreviousActiveLevelState()
                 gsm.setState(GameStateManager.PLAY)
             }
         }

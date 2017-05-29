@@ -10,7 +10,7 @@ import io.wasin.blockbunny.Game
  */
 class ScreenStopper(tileMap: TiledMap, cam: OrthographicCamera) {
     // get total width for the input tilemap
-    private val width: Float = tileMap.properties.get("tilewidth", Float::class.java) * tileMap.properties.get("width", Float::class.java)
+    val width: Float = tileMap.properties.get("tilewidth", Float::class.java) * tileMap.properties.get("width", Float::class.java)
 
     private val cam: OrthographicCamera = cam
 
