@@ -56,9 +56,10 @@ class Game : ApplicationAdapter() {
         res.loadTexture("images/crystal.png", "crystal")
         res.loadTexture("images/hud.png", "hud")
         res.loadTexture("images/bgs.png", "bgs")
+        res.loadTexture("images/menu.png", "menu")
 
         // set to begin with Play state
-        gsm.pushState(GameStateManager.LEVEL_SELECTION)
+        gsm.pushState(GameStateManager.MAINMENU)
     }
 
     override fun render() {
