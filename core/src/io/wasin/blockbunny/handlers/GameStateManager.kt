@@ -1,10 +1,7 @@
 package io.wasin.blockbunny.handlers
 
 import io.wasin.blockbunny.Game
-import io.wasin.blockbunny.states.GameState
-import io.wasin.blockbunny.states.LevelSelection
-import io.wasin.blockbunny.states.Play
-import io.wasin.blockbunny.states.Score
+import io.wasin.blockbunny.states.*
 
 import java.util.Stack
 
@@ -30,6 +27,7 @@ class GameStateManager(game: Game){
         const val PLAY = 5000
         const val LEVEL_SELECTION = 5001
         const val SCORE = 5002
+        const val MAINMENU = 5003
     }
 
     fun update(dt: Float) {
@@ -53,6 +51,7 @@ class GameStateManager(game: Game){
                 return Score(this)
             }
         }
+        else if (state == MAINMENU) return Mainmenu(this)
         return null
     }
 
