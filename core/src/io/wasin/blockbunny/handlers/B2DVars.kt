@@ -14,5 +14,9 @@ class B2DVars {
         const val BIT_GREEN: Short = 8
         const val BIT_BLUE: Short = 16
         const val BIT_CRYSTAL: Short = 32
+        const val BIT_TOP_PLATFORM: Short = 64
+        const val BIT_BOTTOM_PLATFORM: Short = 128
+        const val BIT_LINE1_BLOCK: Short = 256
+        const val BIT_LINE2_BLOCK: Short = 512
     }
 }
