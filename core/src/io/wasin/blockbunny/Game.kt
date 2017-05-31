@@ -22,6 +22,8 @@ class Game : ApplicationAdapter() {
         private set
     lateinit var gsm: GameStateManager
         private set
+    lateinit var playerSaveFileManager: PlayerSaveFileManager
+        private set
 
     companion object {
         const val TITLE = "Block Bunny"
@@ -51,6 +53,9 @@ class Game : ApplicationAdapter() {
 
         camViewport = FitViewport(Game.V_WIDTH, Game.V_HEIGHT, cam)
         hudViewport = FitViewport(Game.V_WIDTH, Game.V_HEIGHT, hudCam)
+
+        // create player's savefile manager with pre-set of savefile's path
+        playerSaveFileManager = PlayerSaveFileManager(Settings.PLAYER_SAVEFILE_RELATIVE_PATH)
 
         res.loadTexture("images/bunny.png", "bunny")
         res.loadTexture("images/crystal.png", "crystal")

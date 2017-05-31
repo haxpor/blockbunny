@@ -11,11 +11,6 @@ import io.wasin.blockbunny.handlers.*
  */
 class LevelSelection(gsm: GameStateManager): GameState(gsm) {
 
-    companion object {
-        // FIXME: This value is fixed as of now due to algorithm to render takes time to make it right, don't change this value!
-        const val LEVEL_NUM: Int = 15
-    }
-
     private var bg: Background
     lateinit private var textRenderer: TextRenderer
     lateinit private var levelButtons: Array<LevelButton>
@@ -26,7 +21,7 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         bg = Background(bgTextureRegion, hudCam, 0f)
 
         createTextRenderer()
-        createLevelButtons(LEVEL_NUM)
+        createLevelButtons(Settings.TOTAL_LEVELS)
     }
 
     private fun createTextRenderer() {
@@ -60,12 +55,14 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         val baseTexRegion = TextureRegion(tex, 32, 32)
 
         val tmpList = arrayListOf<LevelButton>()
+        // at this point, our cached data should be present and there should be no problem
+        val syncedPlayerSave = game.playerSaveFileManager.cache.data!!
 
-        // FIXME: Make it not fixed, but responsive to current viewport width
-        // design for 5x5 in total of 25 matches the value set in LEVEL_NUM
+        // design for 5x3 in total of 15 matches the value set in Settings.TOTAL_LEVELS
         for (i in 0..4) {
             for (j in 0..2) {
-                val b = LevelButton(baseTexRegion, (i+1)+(j*5), false, 64f/2f + (i * 64f), hudCam.viewportHeight - 64f - (j * 64f))
+                val levelResult = syncedPlayerSave.levelResults[j*5 + i]
+                val b = LevelButton(baseTexRegion, (i+1)+(j*5), levelResult.clear, 64f/2f + (i * 64f), hudCam.viewportHeight - 64f - (j * 64f))
                 b.setOnClickListener { level -> this.onLevelButtonClick(level) }
                 tmpList.add(b)
             }

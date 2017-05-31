@@ -123,3 +123,7 @@ Thumbs.db
 !/ios-moe/xcode/*.xcodeproj/xcshareddata
 !/ios-moe/xcode/*.xcodeproj/project.pbxproj
 /ios-moe/xcode/native/
+
+## player's save file
+# ignore it to avoid problem of unintentional release player's save file in production
+android/assets/player.json
