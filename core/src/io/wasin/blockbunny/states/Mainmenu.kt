@@ -7,13 +7,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.utils.SerializationException
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import io.wasin.blockbunny.Game
+import io.wasin.blockbunny.data.LevelResult
+import io.wasin.blockbunny.data.PlayerSave
 import io.wasin.blockbunny.entities.B2DSprite
-import io.wasin.blockbunny.handlers.B2DVars
-import io.wasin.blockbunny.handlers.BBInput
-import io.wasin.blockbunny.handlers.GameStateManager
+import io.wasin.blockbunny.handlers.*
 import kotlin.experimental.or
 
 /**
@@ -58,6 +59,27 @@ class Mainmenu(gsm: GameStateManager): GameState(gsm) {
         b2dViewport = FitViewport(Game.V_WIDTH / B2DVars.PPM, Game.V_HEIGHT / B2DVars.PPM, b2dCam)
 
         createPhysicsTextBlocks()
+
+        // read player's savefile
+        // this will read it into cache, thus it will be maintained and used throughout the life
+        // cycle of the game
+        try {
+            println("read save file")
+            game.playerSaveFileManager.readSaveFile()
+        }
+        catch(e: GameRuntimeException) {
+            if (e.code == GameRuntimeException.SAVE_FILE_NOT_FOUND ||
+                    e.code == GameRuntimeException.SAVE_FILE_EMPTY_CONTENT) {
+                // write a new fresh save file to resolve the issue
+                println("write a fresh save file")
+                game.playerSaveFileManager.writeFreshSaveFile(Settings.TOTAL_LEVELS)
+            }
+        }
+        catch(e: SerializationException) {
+            println("save file is corrupted, rewrite a fresh one : ${e.message}")
+
+            game.playerSaveFileManager.writeFreshSaveFile(Settings.TOTAL_LEVELS)
+        }
     }
 
     override fun handleInput() {

@@ -51,7 +51,7 @@ class LevelButton(textureRegion: TextureRegion, levelNumber: Int, isClear: Boole
             // draw at the half-center of the base
             // spare another part for indication of level cleared by slash
             textRenderer.renderNumber(levelNumber, position.x, position.y + textRenderer.fontHalfHeight, sb)
-            textRenderer.renderSlash(position.x, position.y - textRenderer.fontHalfHeight, sb)
+            textRenderer.renderSlash(position.x, position.y - textRenderer.fontHeight + 2f, sb)
         }
         else {
             // draw at the center of the base

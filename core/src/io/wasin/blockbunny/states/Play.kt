@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.*
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import io.wasin.blockbunny.Game
+import io.wasin.blockbunny.data.LevelResult
 import io.wasin.blockbunny.entities.Crystal
 import io.wasin.blockbunny.entities.HUD
 import io.wasin.blockbunny.entities.Player
@@ -146,14 +147,30 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         }
 
         // if player is outside of the screen then go to SCORE screen
+        // GAME OVER state
         if (!isWentToScoreScreen && player.position.y * B2DVars.PPM + player.height/2 < 0f) {
             Gdx.app.log("Play", "Player died and is outside of the screen")
+
+            // no need to update save file
+
+            // go to Score screen
             gsm.pushState(GameStateManager.SCORE)
             isWentToScoreScreen = true
         }
         // if player is outside of the total width of tilemap, then player clears the level
+        // WIN state
         else if (!isWentToScoreScreen && player.position.x * B2DVars.PPM - player.width/2 > screenStopper.width) {
             Gdx.app.log("Play", "Player clears the level")
+
+            // update to player save file if level isn't cleared yet OR
+            // update to player save file if level is cleared and its high score is beated
+            val levelResult: LevelResult? = game.playerSaveFileManager.getLevelResult(sToPlayLevel)
+            if ((levelResult != null && !levelResult.clear) ||
+                (levelResult != null && levelResult.clear && levelResult.collectedCrystal < player.getNumCrystals())) {
+                game.playerSaveFileManager.updateLevelResult(sToPlayLevel, LevelResult(true, player.getNumCrystals()), true)
+            }
+
+            // go to Score screen
             gsm.setCurrentActiveLevelAsClear(player.getNumCrystals(), player.getTotalCrystals())
             gsm.pushState(GameStateManager.SCORE)
             isWentToScoreScreen = true
