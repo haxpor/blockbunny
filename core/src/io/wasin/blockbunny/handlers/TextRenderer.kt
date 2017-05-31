@@ -41,6 +41,9 @@ class TextRenderer(numberFontTextureRegions: Array<TextureRegion>, slashFontText
     }
 
     fun renderSlash(x: Float, y: Float, sb: SpriteBatch) {
-        sb.draw(slashFontTextureRegion, x, y)
+        val posX = x - fontWidth/2f
+        val posY = y - fontHeight/2f
+
+        sb.draw(slashFontTextureRegion, posX, posY)
     }
 }
