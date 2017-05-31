@@ -170,7 +170,6 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         if (!screenStopper.isStopped) {
             cam.position.set(dummyPlayer.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
             cam.update()
-            println("update")
         }
 
         // draw bgs

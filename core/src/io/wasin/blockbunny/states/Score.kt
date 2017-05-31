@@ -37,7 +37,7 @@ class Score(failed: Boolean, crystalsAmount: Int, maxCrystalAmount: Int, gsm: Ga
             glyph2.setText(font, failedLine2)
         }
         else {
-            glyph1.setText(font, "$successLine1 $crystalsAmount / $maxCrystalAmount")
+            glyph1.setText(font, successLine1)
             glyph2.setText(font, successLine2)
         }
     }
