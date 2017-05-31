@@ -16,7 +16,7 @@ class Score(failed: Boolean, crystalsAmount: Int, maxCrystalAmount: Int, gsm: Ga
     private val failedLine1: String = "Game Over"
     private val failedLine2: String = "Press any key to continue"
 
-    private val successLine1: String = "LevelResult Clear!"
+    private val successLine1: String = "Level Clear!"
     private val successLine2: String = "Press any key to continue"
 
     private val glyph1: GlyphLayout
