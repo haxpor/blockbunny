@@ -86,7 +86,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         createBackgrounds()
 
         screenStopper = ScreenStopper(tileMap, cam)
-        screenStopper.setOnRearchEndOfLevel {  -> this.onReachEndOfLevel() }
+        screenStopper.setOnRearchEndOfLevel { -> this.onReachEndOfLevel() }
 
         // set total of crystals in the map to player
         player.setTotalCrystals(tileMap.layers.get("crystals").objects.count)
@@ -121,7 +121,13 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // remove crystals
         var bodies = cl.bodiesToRemove
         for (b in bodies) {
-            crystals.removeIf { c -> c == b.userData as Crystal }
+            // this manual loop section fixed this issue https://github.com/multi-os-engine/multi-os-engine/issues/114
+            for (c in crystals) {
+                if (c == b.userData as Crystal) {
+                    crystals.remove(c)
+                    break
+                }
+            }
             world.destroyBody(b)
             player.collectCrystal()
         }
