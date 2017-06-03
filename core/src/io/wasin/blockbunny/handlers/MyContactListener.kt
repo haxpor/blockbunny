@@ -1,6 +1,7 @@
 package io.wasin.blockbunny.handlers
 
 import com.badlogic.gdx.physics.box2d.*
+import io.wasin.blockbunny.Game
 
 /**
  * Created by haxpor on 5/16/17.
@@ -31,9 +32,11 @@ class MyContactListener : ContactListener {
         }
 
         if (fa!!.userData != null && fa!!.userData.equals("crystal")) {
+            Game.res.getSound("crystal")!!.play()
             bodiesToRemove.add(fa.body)
         }
         if (fb!!.userData != null && fb!!.userData.equals("crystal")) {
+            Game.res.getSound("crystal")!!.play()
             bodiesToRemove.add(fb.body)
         }
 
