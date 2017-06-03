@@ -184,9 +184,15 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         screenStopper.update(dt)
 
-        // check to act die for player
+        // check to act die for player (front collided with tile)
         if (cl.playerFrontCollided && !player.died) {
             Gdx.app.log("Play", "Player collided with tile at front")
+            screenStopper.stop()
+            player.actDie()
+        }
+        // check to act die for player (bomb)
+        if (cl.playerCollidedWithBomb && !player.died) {
+            Gdx.app.log("Play", "Player collided with bomb")
             screenStopper.stop()
             player.actDie()
         }
