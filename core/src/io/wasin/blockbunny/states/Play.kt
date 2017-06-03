@@ -132,16 +132,20 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     }
 
     override fun handleInput() {
-        // player jump
-        if (BBInput.isPressed(BBInput.BUTTON1)) {
+        println("${BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)}")
+        // ** Keyboard & Mouse **
+        // player jump if BBInput.BUTTON1 is pressed, or click on left half of the screen
+        if (BBInput.isPressed(BBInput.BUTTON1) ||
+                ((BBInput.screenX <= cam.viewportWidth/2f) && BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)) ) {
             if (cl.playerOnGround) {
                 Game.res.getSound("jump")!!.play()
                 player.body.applyForceToCenter(0f, 250f, true)
             }
         }
 
-        // switch block color
-        if (BBInput.isPressed(BBInput.BUTTON2)) {
+        // switch block color if BBInput.BUTTON2 is pressed, or click on right half of the screen
+        if (BBInput.isPressed(BBInput.BUTTON2) ||
+                (BBInput.screenX > cam.viewportWidth/2f && BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)) ) {
             switchBlocks()
         }
     }
