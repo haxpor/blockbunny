@@ -76,7 +76,7 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
 
         // TODO: Relax this for general to be able to play for all levels, not fix to 1 for safety
         when (level) {
-            in 1..2 -> {
+            in 1..3 -> {
                 Play.sToPlayLevel = level
                 // clear state of score screen
                 gsm.resetPreviousActiveLevelState()
