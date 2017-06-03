@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.physics.box2d.*
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.Viewport
@@ -132,11 +133,15 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     }
 
     override fun handleInput() {
-        println("${BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)}")
         // ** Keyboard & Mouse **
+        // convert screen coordinate to world coordinate in context of hud-camera
+        val screenCoor = Vector3(BBInput.screenX.toFloat(), BBInput.screenY.toFloat(), 0f)
+        val worldCoor = hudCam.unproject(screenCoor, hudViewport.screenX.toFloat(), hudViewport.screenY.toFloat(),
+                hudViewport.screenWidth.toFloat(), hudViewport.screenHeight.toFloat())
+
         // player jump if BBInput.BUTTON1 is pressed, or click on left half of the screen
         if (BBInput.isPressed(BBInput.BUTTON1) ||
-                ((BBInput.screenX <= cam.viewportWidth/2f) && BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)) ) {
+                ((worldCoor.x <= hudCam.viewportWidth/2f) && BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)) ) {
             if (cl.playerOnGround) {
                 Game.res.getSound("jump")!!.play()
                 player.body.applyForceToCenter(0f, 250f, true)
@@ -145,7 +150,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // switch block color if BBInput.BUTTON2 is pressed, or click on right half of the screen
         if (BBInput.isPressed(BBInput.BUTTON2) ||
-                (BBInput.screenX > cam.viewportWidth/2f && BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)) ) {
+                (worldCoor.x > hudCam.viewportWidth/2f && BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)) ) {
             switchBlocks()
         }
     }
