@@ -15,16 +15,38 @@ class BBInputProcessor : InputAdapter() {
     }
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        // keyboard
         BBInput.screenX = screenX
         BBInput.screenY = screenY
         BBInput.down = true
+
+        // mouse
+        BBInput.mouseDown = true
+        if (button == Input.Buttons.LEFT) {
+            BBInput.setMouseKey(BBInput.MOUSE_BUTTON_LEFT, true)
+        }
+        if (button == Input.Buttons.RIGHT) {
+            BBInput.setMouseKey(BBInput.MOUSE_BUTTON_RIGHT, true)
+        }
+
         return true
     }
 
     override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        // keyboard
         BBInput.screenX = screenX
         BBInput.screenY = screenY
         BBInput.down = false
+
+        // mouse
+        BBInput.mouseDown = false
+        if (button == Input.Buttons.LEFT) {
+            BBInput.setMouseKey(BBInput.MOUSE_BUTTON_LEFT, false)
+        }
+        if (button == Input.Buttons.RIGHT) {
+            BBInput.setMouseKey(BBInput.MOUSE_BUTTON_RIGHT, false)
+        }
+
         return true
     }
 
@@ -32,6 +54,7 @@ class BBInputProcessor : InputAdapter() {
         BBInput.screenX = screenX
         BBInput.screenY = screenY
         BBInput.down = true
+        BBInput.mouseDown = true
         return true
     }
 
