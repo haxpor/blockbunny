@@ -39,11 +39,11 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0
 </data>
  </layer>
- <objectgroup name="crystals">
-  <object id="28" x="373" y="208">
+ <objectgroup name="objects">
+  <object id="28" type="crystal" x="373" y="208">
    <ellipse/>
   </object>
-  <object id="29" x="404" y="210">
+  <object id="29" type="crystal" x="404" y="210">
    <ellipse/>
   </object>
  </objectgroup>

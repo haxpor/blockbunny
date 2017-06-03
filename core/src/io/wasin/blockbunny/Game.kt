@@ -62,6 +62,7 @@ class Game : ApplicationAdapter() {
         res.loadTexture("images/hud.png", "hud")
         res.loadTexture("images/bgs.png", "bgs")
         res.loadTexture("images/menu.png", "menu")
+        res.loadTexture("images/spikes.png", "spikes")
 
         // set to begin with Play state
         gsm.pushState(GameStateManager.MAINMENU)

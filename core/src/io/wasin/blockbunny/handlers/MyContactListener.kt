@@ -15,6 +15,7 @@ class MyContactListener : ContactListener {
         get() = numFootContacts > 0
 
     var playerFrontCollided: Boolean = false
+    var playerCollidedWithBomb: Boolean = false
 
     override fun beginContact(contact: Contact?) {
         val fa: Fixture? = contact?.fixtureA
@@ -34,6 +35,13 @@ class MyContactListener : ContactListener {
         }
         if (fb!!.userData != null && fb!!.userData.equals("crystal")) {
             bodiesToRemove.add(fb.body)
+        }
+
+        if (fa!!.userData != null && fa!!.userData.equals("bomb")) {
+            playerCollidedWithBomb = true
+        }
+        if (fb!!.userData != null && fb!!.userData.equals("bomb")) {
+            playerCollidedWithBomb = true
         }
 
         if (fa!!.userData != null && fa!!.userData.equals("front")) {

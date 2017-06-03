@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.data.LevelResult
+import io.wasin.blockbunny.entities.Bomb
 import io.wasin.blockbunny.entities.Crystal
 import io.wasin.blockbunny.entities.HUD
 import io.wasin.blockbunny.entities.Player
@@ -50,6 +51,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     lateinit private var player: Player
     lateinit private var dummyPlayer: Player
     lateinit private var crystals: MutableList<Crystal>
+    lateinit private var bombs: MutableList<Bomb>
     private var hud: HUD
     lateinit private var bgs: Array<Background>
 
@@ -71,8 +73,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // create tiles
         createTiles()
 
-        // create crystals
-        createCrystals()
+        // create objects in game
+        createObjects()
 
         // set up box2d camera
         b2dCam = OrthographicCamera()
@@ -89,10 +91,44 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         screenStopper.setOnRearchEndOfLevel { -> this.onReachEndOfLevel() }
 
         // set total of crystals in the map to player
-        player.setTotalCrystals(tileMap.layers.get("crystals").objects.count)
+        player.setTotalCrystals(getTotalObjetCountOfCrystals())
     }
 
     fun onReachEndOfLevel() {
+    }
+
+    /**
+     * Be careful, it's expensive call.
+     * Cache the result for better performance.
+     */
+    fun getTotalObjetCountOfCrystals(): Int {
+        val layer = tileMap.layers.get("objects")
+        var count = 0
+
+        for (obj in layer.objects) {
+            if (obj.properties.get("type") == "crystal") {
+                count++
+            }
+        }
+
+        return count
+    }
+
+    /**
+     * Be careful, it's expensive call.
+     * Cache the result for better performance.
+     */
+    fun getTotalObjectCountOfBomb(): Int {
+        val layer = tileMap.layers.get("objects")
+        var count = 0
+
+        for (obj in layer.objects) {
+            if (obj.properties.get("type") == "bomb") {
+                count++
+            }
+        }
+
+        return count
     }
 
     override fun handleInput() {
@@ -142,12 +178,21 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         for (c in crystals) {
             c.update(dt)
         }
+        for (b in bombs) {
+            b.update(dt)
+        }
 
         screenStopper.update(dt)
 
-        // check to act die for player
+        // check to act die for player (front collided with tile)
         if (cl.playerFrontCollided && !player.died) {
             Gdx.app.log("Play", "Player collided with tile at front")
+            screenStopper.stop()
+            player.actDie()
+        }
+        // check to act die for player (bomb)
+        if (cl.playerCollidedWithBomb && !player.died) {
+            Gdx.app.log("Play", "Player collided with bomb")
             screenStopper.stop()
             player.actDie()
         }
@@ -216,6 +261,9 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         for (c in crystals) {
             c.render(sb)
         }
+        for (b in bombs) {
+            b.render(sb)
+        }
 
         // draw hud
         sb.projectionMatrix = hudCam.combined
@@ -248,7 +296,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         shape.setAsBox(13f / B2DVars.PPM, 13f / B2DVars.PPM)
         fdef.shape = shape
         fdef.filter.categoryBits = B2DVars.BIT_PLAYER
-        fdef.filter.maskBits = B2DVars.BIT_RED or B2DVars.BIT_CRYSTAL
+        fdef.filter.maskBits = B2DVars.BIT_RED or B2DVars.BIT_CRYSTAL or B2DVars.BIT_BOMB
         body.createFixture(fdef).userData = "player"
 
         // reuse
@@ -354,33 +402,68 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         }
     }
 
-    private fun createCrystals() {
+    private fun createObjects() {
+        // create mutable list for all type of objects
         crystals = mutableListOf()
-        val layer = tileMap.layers.get("crystals")
+        bombs = mutableListOf()
+
+        // all types of object are inside "objects" layer
+        val layer = tileMap.layers.get("objects")
 
         val bdef = BodyDef()
         val fdef = FixtureDef()
 
         for (mo in layer.objects) {
-            bdef.type = BodyDef.BodyType.StaticBody
-            val x = mo.properties.get("x", Float::class.java) / B2DVars.PPM
-            val y = mo.properties.get("y", Float::class.java) / B2DVars.PPM
-            bdef.position.set(x, y)
 
-            val cshape = CircleShape()
-            cshape.radius = 8f / B2DVars.PPM
+            val type = mo.properties.get("type")
 
-            fdef.shape = cshape
-            fdef.isSensor = true
-            fdef.filter.categoryBits = B2DVars.BIT_CRYSTAL
-            fdef.filter.maskBits = B2DVars.BIT_PLAYER
+            when(type) {
+                "crystal" -> {
+                    bdef.type = BodyDef.BodyType.StaticBody
+                    val x = mo.properties.get("x", Float::class.java) / B2DVars.PPM
+                    val y = mo.properties.get("y", Float::class.java) / B2DVars.PPM
+                    bdef.position.set(x, y)
 
-            val body = world.createBody(bdef)
-            body.createFixture(fdef).userData = "crystal"
+                    val cshape = CircleShape()
+                    cshape.radius = 8f / B2DVars.PPM
 
-            val c = Crystal(body)
-            body.userData = c
-            crystals.add(c)
+                    fdef.shape = cshape
+                    fdef.isSensor = true
+                    fdef.filter.categoryBits = B2DVars.BIT_CRYSTAL
+                    fdef.filter.maskBits = B2DVars.BIT_PLAYER
+
+                    val body = world.createBody(bdef)
+                    body.createFixture(fdef).userData = "crystal"
+
+                    val type = mo.properties.get("type")
+
+                    val c = Crystal(body)
+                    body.userData = c
+                    crystals.add(c)
+                }
+
+                "bomb" -> {
+                    bdef.type = BodyDef.BodyType.StaticBody
+                    val x = mo.properties.get("x", Float::class.java) / B2DVars.PPM
+                    val y = mo.properties.get("y", Float::class.java) / B2DVars.PPM
+                    bdef.position.set(x, y)
+
+                    val cshape = CircleShape()
+                    cshape.radius = 13f / B2DVars.PPM   // no the exact same size of texture region
+
+                    fdef.shape = cshape
+                    fdef.isSensor = true
+                    fdef.filter.categoryBits = B2DVars.BIT_BOMB
+                    fdef.filter.maskBits = B2DVars.BIT_PLAYER
+
+                    val body = world.createBody(bdef)
+                    body.createFixture(fdef).userData = "bomb"
+
+                    val c = Bomb(body)
+                    body.userData = c
+                    bombs.add(c)
+                }
+            }
         }
     }
 
@@ -416,12 +499,12 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // set new mask bits to foot
         tmpFilterData = foot.filterData
-        tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv()
+        tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv() and B2DVars.BIT_BOMB.inv()
         foot.filterData = tmpFilterData
 
         // set new mask bits to front
         tmpFilterData = front.filterData
-        tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv()
+        tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv() and B2DVars.BIT_BOMB.inv()
         front.filterData = tmpFilterData
     }
 
