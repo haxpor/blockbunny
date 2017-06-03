@@ -63,7 +63,11 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
             for (j in 0..2) {
                 val levelResult = syncedPlayerSave.levelResults[j*5 + i]
                 val b = LevelButton(baseTexRegion, (i+1)+(j*5), levelResult.clear, 64f/2f + (i * 64f), hudCam.viewportHeight - 64f - (j * 64f))
-                b.setOnClickListener { level -> this.onLevelButtonClick(level) }
+                b.setOnClickListener { level -> run {
+                        Game.res.getSound("levelselect")!!.play()
+                        this.onLevelButtonClick(level)
+                    }
+                }
                 tmpList.add(b)
             }
         }

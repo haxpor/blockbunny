@@ -64,6 +64,18 @@ class Game : ApplicationAdapter() {
         res.loadTexture("images/menu.png", "menu")
         res.loadTexture("images/spikes.png", "spikes")
 
+        res.loadMusic("music/bbsong.mp3", "bbsong")
+        res.loadSound("sfx/changeblock.wav", "changeblock")
+        res.loadSound("sfx/crystal.wav", "crystal")
+        res.loadSound("sfx/hit.wav", "hit")
+        res.loadSound("sfx/jump.wav", "jump")
+        res.loadSound("sfx/levelselect.wav", "levelselect")
+
+        // set to play background music endlessly now
+        val bgMusic = res.getMusic("bbsong")!!
+        bgMusic.play()
+        bgMusic.isLooping = true
+
         // set to begin with Play state
         gsm.pushState(GameStateManager.MAINMENU)
     }

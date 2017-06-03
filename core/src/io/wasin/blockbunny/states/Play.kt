@@ -135,6 +135,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // player jump
         if (BBInput.isPressed(BBInput.BUTTON1)) {
             if (cl.playerOnGround) {
+                Game.res.getSound("jump")!!.play()
                 player.body.applyForceToCenter(0f, 250f, true)
             }
         }
@@ -187,12 +188,22 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         // check to act die for player (front collided with tile)
         if (cl.playerFrontCollided && !player.died) {
             Gdx.app.log("Play", "Player collided with tile at front")
+
+            val hit = Game.res.getSound("hit")!!
+            val hitId = hit.play()
+            hit.setVolume(hitId, 2.0f)
+
             screenStopper.stop()
             player.actDie()
         }
         // check to act die for player (bomb)
         if (cl.playerCollidedWithBomb && !player.died) {
             Gdx.app.log("Play", "Player collided with bomb")
+
+            val hit = Game.res.getSound("hit")!!
+            val hitId = hit.play()
+            hit.setVolume(hitId, 2.0f)
+
             screenStopper.stop()
             player.actDie()
         }
@@ -468,6 +479,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     }
 
     private fun switchBlocks() {
+        Game.res.getSound("changeblock")!!.play()
+
         val body = player.body.fixtureList.first()
         val foot = player.body.fixtureList[1]
         val front = player.body.fixtureList[2]
