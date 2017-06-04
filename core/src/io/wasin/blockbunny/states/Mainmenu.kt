@@ -126,6 +126,10 @@ class Mainmenu(gsm: GameStateManager): GameState(gsm) {
 
     }
 
+    override fun resize_user(width: Int, height: Int) {
+
+    }
+
     private fun createPhysicsTextBlocks() {
         val tileSize = 5f
         val offsetY = 20f    // offset in y-position to initially place each block before physics kicks in

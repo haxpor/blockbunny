@@ -1,6 +1,7 @@
 package io.wasin.blockbunny.states
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.TextureRegion
@@ -93,6 +94,15 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // set total of crystals in the map to player
         player.setTotalCrystals(getTotalObjetCountOfCrystals())
+    }
+
+    override fun setupViewport(cam: OrthographicCamera, hudCam: OrthographicCamera, viewportWidth: Float, viewportHeight: Float) {
+        camViewport = ExtendViewport(viewportWidth, viewportHeight, cam)
+        hudViewport = ExtendViewport(viewportWidth, viewportHeight, hudCam)
+    }
+
+    override fun resize_user(width: Int, height: Int) {
+        b2dViewport.update((width / B2DVars.PPM).toInt(), (height / B2DVars.PPM).toInt())
     }
 
     fun onReachEndOfLevel() {

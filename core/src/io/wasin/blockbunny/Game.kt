@@ -13,14 +13,6 @@ class Game : ApplicationAdapter() {
 
     lateinit var sb: SpriteBatch
         private set
-    lateinit var camViewport: Viewport
-        private set
-    lateinit var hudViewport: Viewport
-        private set
-    lateinit var cam: OrthographicCamera
-        private set
-    lateinit var hudCam: OrthographicCamera
-        private set
     lateinit var gsm: GameStateManager
         private set
     lateinit var playerSaveFileManager: PlayerSaveFileManager
@@ -42,18 +34,7 @@ class Game : ApplicationAdapter() {
 
         sb = SpriteBatch()
 
-        // set up cam
-        cam = OrthographicCamera()
-        cam.setToOrtho(false, V_WIDTH, V_HEIGHT)
-
-        // set up hud-cam
-        hudCam = OrthographicCamera()
-        hudCam.setToOrtho(false, V_WIDTH, V_HEIGHT)
-
         gsm = GameStateManager(this)
-
-        camViewport = FitViewport(Game.V_WIDTH, Game.V_HEIGHT, cam)
-        hudViewport = FitViewport(Game.V_WIDTH, Game.V_HEIGHT, hudCam)
 
         // create player's savefile manager with pre-set of savefile's path
         playerSaveFileManager = PlayerSaveFileManager(Settings.PLAYER_SAVEFILE_RELATIVE_PATH)
@@ -106,7 +87,6 @@ class Game : ApplicationAdapter() {
     }
 
     override fun resize(width: Int, height: Int) {
-        camViewport.update(width, height)
-        hudViewport.update(width, height, true)
+        gsm.resize(width, height)
     }
 }

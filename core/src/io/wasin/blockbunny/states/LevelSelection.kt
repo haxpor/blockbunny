@@ -222,7 +222,7 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         bg.update(dt)
 
         for (b in levelButtons) {
-            b.update(hudCam, gsm.game.hudViewport, dt)
+            b.update(hudCam, hudViewport, dt)
         }
     }
 
@@ -250,6 +250,10 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
     }
 
     override fun dispose() {
+
+    }
+
+    override fun resize_user(width: Int, height: Int) {
 
     }
 }
