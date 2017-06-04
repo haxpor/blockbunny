@@ -35,7 +35,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         var sToPlayLevel: Int = 1
     }
 
-    private var b2dDebug: Boolean = true
+    private var b2dDebug: Boolean = false
 
     var b2dViewport: Viewport
     var b2dCam: OrthographicCamera
