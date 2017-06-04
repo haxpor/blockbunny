@@ -34,6 +34,10 @@ class GameStateManager(game: Game){
         this.gameStates.peek().update(dt)
     }
 
+    fun resize(width: Int, height: Int) {
+        this.gameStates.peek().resize(width, height)
+    }
+
     fun render() {
         for (state in this.gameStates) {
             state.render()

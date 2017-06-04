@@ -1,7 +1,9 @@
 package io.wasin.blockbunny.states
 
+import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
+import com.badlogic.gdx.utils.viewport.ExtendViewport
 import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.handlers.BBInput
 import io.wasin.blockbunny.handlers.GameStateManager
@@ -57,12 +59,21 @@ class Score(failed: Boolean, crystalsAmount: Int, maxCrystalAmount: Int, gsm: Ga
 
     override fun render() {
         sb.begin()
-        font.draw(sb, glyph1, Game.V_WIDTH/2f - glyph1.width/2f, Game.V_HEIGHT/2f + glyph1.height/2f + textMargin/2f)
-        font.draw(sb, glyph2, Game.V_WIDTH/2f - glyph2.width/2f, Game.V_HEIGHT/2f - glyph2.height/2f - textMargin/2f)
+        font.draw(sb, glyph1, hudCam.viewportWidth/2f - glyph1.width/2f, hudCam.viewportHeight/2f + glyph1.height/2f + textMargin/2f)
+        font.draw(sb, glyph2, hudCam.viewportWidth/2f - glyph2.width/2f, hudCam.viewportHeight/2f - glyph2.height/2f - textMargin/2f)
         sb.end()
     }
 
     override fun dispose() {
 
+    }
+
+    override fun resize_user(width: Int, height: Int) {
+
+    }
+
+    override fun setupViewport(cam: OrthographicCamera, hudCam: OrthographicCamera, viewportWidth: Float, viewportHeight: Float) {
+        camViewport = ExtendViewport(viewportWidth, viewportHeight, cam)
+        hudViewport = ExtendViewport(viewportWidth, viewportHeight, hudCam)
     }
 }
