@@ -64,6 +64,7 @@ class Game : ApplicationAdapter() {
         res.loadTexture("images/bgs.png", "bgs")
         res.loadTexture("images/menu.png", "menu")
         res.loadTexture("images/spikes.png", "spikes")
+        res.loadTexture("images/misc.png", "misc")
 
         res.loadMusic("music/bbsong.mp3", "bbsong")
         res.loadSound("sfx/changeblock.wav", "changeblock")

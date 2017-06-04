@@ -72,6 +72,18 @@ class BBInputProcessor : InputAdapter(), ControllerListener {
         if (keycode == Input.Keys.X) {
             BBInput.setKey(BBInput.BUTTON2, true)
         }
+        if (keycode == Input.Keys.LEFT) {
+            BBInput.setKey(BBInput.BUTTON_LEFT, true)
+        }
+        if (keycode == Input.Keys.RIGHT) {
+            BBInput.setKey(BBInput.BUTTON_RIGHT, true)
+        }
+        if (keycode == Input.Keys.UP) {
+            BBInput.setKey(BBInput.BUTTON_UP, true)
+        }
+        if (keycode == Input.Keys.DOWN) {
+            BBInput.setKey(BBInput.BUTTON_DOWN, true)
+        }
         return true
     }
 
@@ -81,6 +93,18 @@ class BBInputProcessor : InputAdapter(), ControllerListener {
         }
         if (keycode == Input.Keys.X) {
             BBInput.setKey(BBInput.BUTTON2, false)
+        }
+        if (keycode == Input.Keys.LEFT) {
+            BBInput.setKey(BBInput.BUTTON_LEFT, false)
+        }
+        if (keycode == Input.Keys.RIGHT) {
+            BBInput.setKey(BBInput.BUTTON_RIGHT, false)
+        }
+        if (keycode == Input.Keys.UP) {
+            BBInput.setKey(BBInput.BUTTON_UP, false)
+        }
+        if (keycode == Input.Keys.DOWN) {
+            BBInput.setKey(BBInput.BUTTON_DOWN, false)
         }
         return true
     }
@@ -101,6 +125,18 @@ class BBInputProcessor : InputAdapter(), ControllerListener {
         if (buttonCode == Xbox.A) {
             BBInput.setControllerKey(BBInput.CONTROLLER_BUTTON_2, true)
         }
+        if (buttonCode == Xbox.DPAD_LEFT) {
+            BBInput.setControllerKey(BBInput.CONTROLLER_BUTTON_LEFT, true)
+        }
+        if (buttonCode == Xbox.DPAD_RIGHT) {
+            BBInput.setControllerKey(BBInput.CONTROLLER_BUTTON_RIGHT, true)
+        }
+        if (buttonCode == Xbox.DPAD_UP) {
+            BBInput.setControllerKey(BBInput.CONTROLLER_BUTTON_UP, true)
+        }
+        if (buttonCode == Xbox.DPAD_DOWN) {
+            BBInput.setControllerKey(BBInput.CONTROLLER_BUTTON_DOWN, true)
+        }
         return true
     }
 
@@ -117,6 +153,18 @@ class BBInputProcessor : InputAdapter(), ControllerListener {
         }
         if (buttonCode == Xbox.A) {
             BBInput.setControllerKey(BBInput.CONTROLLER_BUTTON_2, false)
+        }
+        if (buttonCode == Xbox.DPAD_LEFT) {
+            BBInput.setControllerKey(BBInput.CONTROLLER_BUTTON_LEFT, false)
+        }
+        if (buttonCode == Xbox.DPAD_RIGHT) {
+            BBInput.setControllerKey(BBInput.CONTROLLER_BUTTON_RIGHT, false)
+        }
+        if (buttonCode == Xbox.DPAD_UP) {
+            BBInput.setControllerKey(BBInput.CONTROLLER_BUTTON_UP, false)
+        }
+        if (buttonCode == Xbox.DPAD_DOWN) {
+            BBInput.setControllerKey(BBInput.CONTROLLER_BUTTON_DOWN, false)
         }
         return true
     }

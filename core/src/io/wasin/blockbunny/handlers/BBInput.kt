@@ -22,17 +22,25 @@ class BBInput {
 
         var controller: Controller? = null
 
-        const val NUM_KEYS: Int = 2
+        const val NUM_KEYS: Int = 6
         const val BUTTON1: Int = 0
         const val BUTTON2: Int = 1
+        const val BUTTON_LEFT: Int = 2
+        const val BUTTON_RIGHT: Int = 3
+        const val BUTTON_UP: Int = 4
+        const val BUTTON_DOWN: Int = 5
 
         const val NUM_MOUSE_KEYS: Int = 2
         const val MOUSE_BUTTON_LEFT: Int = 0
         const val MOUSE_BUTTON_RIGHT: Int = 1
 
-        const val NUM_CONTROLLER_KEYS: Int = 2
+        const val NUM_CONTROLLER_KEYS: Int = 6
         const val CONTROLLER_BUTTON_1: Int = 0
         const val CONTROLLER_BUTTON_2: Int = 1
+        const val CONTROLLER_BUTTON_LEFT: Int = 2
+        const val CONTROLLER_BUTTON_RIGHT: Int = 3
+        const val CONTROLLER_BUTTON_UP: Int = 4
+        const val CONTROLLER_BUTTON_DOWN: Int = 5
 
         var keys: Array<Boolean> = Array<Boolean>(NUM_KEYS, { i -> false})
         var pkeys: Array<Boolean> = Array<Boolean>(NUM_KEYS, { i -> false})

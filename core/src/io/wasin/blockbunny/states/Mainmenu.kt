@@ -86,7 +86,6 @@ class Mainmenu(gsm: GameStateManager): GameState(gsm) {
     override fun handleInput() {
         if (BBInput.isPressed(BBInput.BUTTON1) || BBInput.isPressed(BBInput.BUTTON2) ||
                 BBInput.isMouseDown(BBInput.MOUSE_BUTTON_LEFT) || BBInput.isDown() ||
-                BBInput.isControllerPressed(BBInput.CONTROLLER_BUTTON_1) ||
                 BBInput.isControllerPressed(BBInput.CONTROLLER_BUTTON_2)) {
             // go back to level selection
             gsm.setState(GameStateManager.LEVEL_SELECTION)

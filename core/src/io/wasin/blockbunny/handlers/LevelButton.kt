@@ -20,7 +20,8 @@ class LevelButton(textureRegion: TextureRegion, levelNumber: Int, isClear: Boole
         private set
     private var listener: ((Int) -> Unit)? = null
     private var bounds: Rectangle
-    private var position: Vector2 = Vector2(x, y)
+    var position: Vector2 = Vector2(x, y)
+        private set
 
     init {
         bounds = Rectangle(x - region.regionWidth/2f, y - region.regionHeight/2f, region.regionWidth.toFloat(), region.regionHeight.toFloat())
