@@ -141,7 +141,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // player jump if BBInput.BUTTON1 is pressed, or click on left half of the screen
         if (BBInput.isPressed(BBInput.BUTTON1) ||
-                ((worldCoor.x <= hudCam.viewportWidth/2f) && BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)) ) {
+                ((worldCoor.x <= hudCam.viewportWidth/2f) && BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)) ||
+                BBInput.isControllerPressed(BBInput.CONTROLLER_BUTTON_2)) {
             if (cl.playerOnGround) {
                 Game.res.getSound("jump")!!.play()
                 player.body.applyForceToCenter(0f, 250f, true)
@@ -150,7 +151,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // switch block color if BBInput.BUTTON2 is pressed, or click on right half of the screen
         if (BBInput.isPressed(BBInput.BUTTON2) ||
-                (worldCoor.x > hudCam.viewportWidth/2f && BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)) ) {
+                (worldCoor.x > hudCam.viewportWidth/2f && BBInput.isMousePressed(BBInput.MOUSE_BUTTON_LEFT)) ||
+                BBInput.isControllerPressed(BBInput.CONTROLLER_BUTTON_1)) {
             switchBlocks()
         }
     }

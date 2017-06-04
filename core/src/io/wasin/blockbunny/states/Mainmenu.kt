@@ -1,6 +1,7 @@
 package io.wasin.blockbunny.states
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.TextureRegion
@@ -84,7 +85,8 @@ class Mainmenu(gsm: GameStateManager): GameState(gsm) {
 
     override fun handleInput() {
         if (BBInput.isPressed(BBInput.BUTTON1) || BBInput.isPressed(BBInput.BUTTON2) ||
-                BBInput.isMouseDown(BBInput.MOUSE_BUTTON_LEFT) || BBInput.isDown()) {
+                BBInput.isMouseDown(BBInput.MOUSE_BUTTON_LEFT) || BBInput.isDown() ||
+                BBInput.isControllerPressed(BBInput.CONTROLLER_BUTTON_2)) {
             // go back to level selection
             gsm.setState(GameStateManager.LEVEL_SELECTION)
         }

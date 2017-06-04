@@ -2,6 +2,7 @@ package io.wasin.blockbunny
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.viewport.FitViewport
@@ -63,6 +64,7 @@ class Game : ApplicationAdapter() {
         res.loadTexture("images/bgs.png", "bgs")
         res.loadTexture("images/menu.png", "menu")
         res.loadTexture("images/spikes.png", "spikes")
+        res.loadTexture("images/misc.png", "misc")
 
         res.loadMusic("music/bbsong.mp3", "bbsong")
         res.loadSound("sfx/changeblock.wav", "changeblock")
@@ -76,8 +78,21 @@ class Game : ApplicationAdapter() {
         bgMusic.play()
         bgMusic.isLooping = true
 
+        // only this time to check for controller
+        // if user plug in controller after this then they have to restart the game
+        setupFirstActiveController()
+
         // set to begin with Play state
         gsm.pushState(GameStateManager.MAINMENU)
+    }
+
+    private fun setupFirstActiveController() {
+        if (Controllers.getControllers().count() > 0) {
+            val bbInputProcessor = Gdx.input.inputProcessor as BBInputProcessor
+            val controller = Controllers.getControllers().first()
+            controller.addListener(bbInputProcessor)
+            bbInputProcessor.setActiveController(controller)
+        }
     }
 
     override fun render() {
