@@ -15,6 +15,7 @@ The assets and idea follows the original project which written in Java on Eclips
 * Added 4-directional selection for level in level selection screen
 * iOS buildable and runnable on simulator and real device with Multi-OS engine version `1.3.6`.
 * Different level from original
+* Support wide-screen in gameplay session
 
 # What It Looks Like
 
@@ -24,7 +25,6 @@ The assets and idea follows the original project which written in Java on Eclips
 
 # What's Next?
 
-* Support wide-screen in gameplay session
 * Add the less of levels; level 4-15
 
 # Credits
