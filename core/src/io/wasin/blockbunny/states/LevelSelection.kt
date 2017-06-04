@@ -79,6 +79,10 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
                 val levelResult = syncedPlayerSave.levelResults[j* COLUMN_PER_PAGE + i]
                 val b = LevelButton(baseTexRegion, (i + 1) + (j * COLUMN_PER_PAGE), levelResult.clear, 64f/2f + (i * 64f), hudCam.viewportHeight - 64f - (j * 64f))
                 b.setOnClickListener { level -> run {
+                        // as touch position is sudden so we manually set it and save for later
+                        activeSelectionIndex = b.levelNumber - 1
+                        sPreviousActiveSelectionIndex = activeSelectionIndex
+
                         Game.res.getSound("levelselect")!!.play()
                         this.onLevelButtonClick(level)
                     }
