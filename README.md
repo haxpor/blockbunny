@@ -18,9 +18,9 @@ The assets and idea follows the original project which written in Java on Eclips
 
 # What It Looks Like
 
-![Imgur](http://i.imgur.com/05P8lh8.gifv)
+![Imgur](http://i.imgur.com/05P8lh8.gif)
 
-![Imgur](http://i.imgur.com/k98jwnl.gifv)
+![Imgur](http://i.imgur.com/k98jwnl.gif)
 
 # What's Next?
 
