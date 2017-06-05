@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0.0" orientation="orthogonal" renderorder="right-down" width="40" height="8" tilewidth="32" tileheight="32" nextobjectid="65">
+ <tileset firstgid="1" name="blocks" tilewidth="32" tileheight="32" tilecount="3" columns="3">
+  <image source="blocks.png" width="96" height="32"/>
+ </tileset>
+ <layer name="tiles" width="40" height="8">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,3,3,0,0,0,0,2,2,0,0,0,0,1,1,0,0,0,0,2,2,0,0,0,0,1,1,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,3,3,0,0,0,0,2,2,0,0,0,0,1,1,0,0,0,0,2,2,0,0,0,0,1,1,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,3,3,0,0,0,0,2,2,0,0,0,0,1,1,0,0,0,0,2,2,0,0,0,0,1,1,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,3,3,0,0,0,0,2,2,0,0,0,0,1,1,0,0,0,0,2,2,0,0,0,0,1,1,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,3,3,0,0,0,0,2,2,0,0,0,0,1,1,0,0,0,0,2,2,0,0,0,0,1,1,0,0,0,0,0,0,
+1,1,1,1,1,1,1,1,3,3,3,3,3,3,2,2,2,2,2,2,1,1,1,1,1,1,2,2,2,2,2,2,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="53" type="crystal" x="111" y="207">
+   <ellipse/>
+  </object>
+  <object id="54" type="crystal" x="143" y="207">
+   <ellipse/>
+  </object>
+  <object id="55" type="crystal" x="398" y="207">
+   <ellipse/>
+  </object>
+  <object id="56" type="crystal" x="366" y="207">
+   <ellipse/>
+  </object>
+  <object id="57" type="crystal" x="592" y="205">
+   <ellipse/>
+  </object>
+  <object id="58" type="crystal" x="560" y="205">
+   <ellipse/>
+  </object>
+  <object id="59" type="crystal" x="784" y="205">
+   <ellipse/>
+  </object>
+  <object id="60" type="crystal" x="752" y="205">
+   <ellipse/>
+  </object>
+  <object id="61" type="crystal" x="975" y="206">
+   <ellipse/>
+  </object>
+  <object id="62" type="crystal" x="943" y="206">
+   <ellipse/>
+  </object>
+  <object id="63" type="crystal" x="1199" y="206">
+   <ellipse/>
+  </object>
+  <object id="64" type="crystal" x="1167" y="206">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

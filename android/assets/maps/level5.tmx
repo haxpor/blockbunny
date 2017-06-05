@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0.0" orientation="orthogonal" renderorder="right-down" width="40" height="8" tilewidth="32" tileheight="32" nextobjectid="37">
+ <tileset firstgid="1" name="blocks" tilewidth="32" tileheight="32" tilecount="3" columns="3">
+  <image source="blocks.png" width="96" height="32"/>
+ </tileset>
+ <layer name="tiles" width="40" height="8">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,0,0,1,1,1,2,2,2,2,2,3,3,3
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="28" type="crystal" x="373" y="208">
+   <ellipse/>
+  </object>
+  <object id="29" type="crystal" x="399" y="208">
+   <ellipse/>
+  </object>
+  <object id="30" type="crystal" x="205" y="207">
+   <ellipse/>
+  </object>
+  <object id="31" type="crystal" x="718" y="206">
+   <ellipse/>
+  </object>
+  <object id="32" type="crystal" x="751" y="207">
+   <ellipse/>
+  </object>
+  <object id="33" type="crystal" x="784" y="208">
+   <ellipse/>
+  </object>
+  <object id="34" type="bomb" x="430" y="208">
+   <ellipse/>
+  </object>
+  <object id="35" type="bomb" x="815" y="208">
+   <ellipse/>
+  </object>
+  <object id="36" type="bomb" x="1104" y="208">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

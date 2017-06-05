@@ -99,7 +99,8 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
 
         // TODO: Relax this for general to be able to play for all levels, not fix to 1 for safety
         when (level) {
-            in 1..3 -> {
+            // check against the current possibility of all level number in current page
+            in (activePage-1) * LEVEL_PER_PAGE + 1..activePage * LEVEL_PER_PAGE + 1 -> {
                 Play.sToPlayLevel = level
                 // clear state of score screen
                 gsm.resetPreviousActiveLevelState()

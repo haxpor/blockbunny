@@ -80,8 +80,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // set up box2d camera
         b2dCam = OrthographicCamera()
-        b2dCam.setToOrtho(false, Game.V_WIDTH / B2DVars.PPM, Game.V_HEIGHT / B2DVars.PPM)
-        b2dViewport = ExtendViewport(Game.V_WIDTH / B2DVars.PPM, Game.V_HEIGHT / B2DVars.PPM, b2dCam)
+        b2dCam.setToOrtho(false, cam.viewportWidth / B2DVars.PPM, cam.viewportHeight / B2DVars.PPM)
+        b2dViewport = ExtendViewport(cam.viewportWidth / B2DVars.PPM, cam.viewportHeight / B2DVars.PPM, b2dCam)
 
         // set up HUD
         hud = HUD(player)
@@ -268,7 +268,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // set camera to follow player
         if (!screenStopper.isStopped) {
-            cam.position.set(dummyPlayer.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
+            cam.position.set(dummyPlayer.position.x * B2DVars.PPM + cam.viewportWidth / 4f, cam.viewportHeight / 2f, 0f)
             cam.update()
         }
 
@@ -392,21 +392,20 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // note: this section is not optimized, the code loops 3 times for each layer unneccesary
         // we can do better by adding custom property to Tile via color name and check it in 1 single loop
-        createLayer(tileMap.layers.get("red") as TiledMapTileLayer, B2DVars.BIT_RED)
-        createLayer(tileMap.layers.get("green") as TiledMapTileLayer, B2DVars.BIT_GREEN)
-        createLayer(tileMap.layers.get("blue") as TiledMapTileLayer, B2DVars.BIT_BLUE)
+        createB2DTileFromLayerWithMappings(tileMap.layers.get("tiles") as TiledMapTileLayer, hashMapOf(1 to B2DVars.BIT_RED, 2 to B2DVars.BIT_GREEN, 3 to B2DVars.BIT_BLUE))
     }
 
-    private fun createLayer(layer: TiledMapTileLayer, bits: Short) {
+    private fun createB2DTileFromLayerWithMappings(layer: TiledMapTileLayer, idMaps: HashMap<Int, Short>) {
         // go through all the cells in the layer
         for (row in 0..layer.height-1) {
             for (col in 0..layer.width-1) {
                 // get cell
                 val cell = layer.getCell(col, row)
 
-                // check if cell exist
+                // check if tile exists
                 if (cell == null) continue
                 if (cell.tile == null) continue
+                if (!idMaps.containsKey(cell.tile.id)) continue
 
                 // creae a body fixture from cell
                 val bdef = BodyDef()
@@ -426,7 +425,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
                 val fdef = FixtureDef()
                 fdef.shape = cs
                 fdef.friction = 0f
-                fdef.filter.categoryBits = bits
+                fdef.filter.categoryBits = idMaps.getValue(cell.tile.id)
                 fdef.filter.maskBits = B2DVars.BIT_PLAYER
 
                 world.createBody(bdef).createFixture(fdef)
