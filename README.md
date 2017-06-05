@@ -13,6 +13,7 @@ The assets and idea follows the original project which written in Java on Eclips
 * Ported to Kotlin; initially closely following tutorial but latter slightly diverse
 * Added controller (mainly tested with Xbox360 controller) support across the game
 * Added 4-directional selection for level in level selection screen
+* Added save file to keep track of player's progress in JSON format (intentionally without encryption)
 * iOS buildable and runnable on simulator and real device with Multi-OS engine version `1.3.6`.
 * Different level from original
 * Support wide-screen in gameplay session
