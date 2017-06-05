@@ -33,11 +33,11 @@ class ScreenStopper(tileMap: TiledMap, cam: OrthographicCamera) {
     }
 
     fun update(dt: Float) {
-        if (!isStopped && cam.position.x + Game.V_WIDTH/2f >= width) {
+        if (!isStopped && cam.position.x + cam.viewportWidth/2f >= width) {
             Gdx.app.log("ScreenStopper", "reached end of level")
 
             // stop camera from progression
-            cam.position.x = width - Game.V_WIDTH/2f
+            cam.position.x = width - cam.viewportWidth/2f
             cam.update()
 
             isReachedEndOfLevel = true
