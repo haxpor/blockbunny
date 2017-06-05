@@ -16,6 +16,7 @@ The assets and idea follows the original project which written in Java on Eclips
 * iOS buildable and runnable on simulator and real device with Multi-OS engine version `1.3.6`.
 * Different level from original
 * Support wide-screen in gameplay session
+* Optimized creation process for tiles, only a single layer and checking against tile's ID
 
 # What It Looks Like
 
