@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0.0" orientation="orthogonal" renderorder="right-down" width="60" height="8" tilewidth="32" tileheight="32" nextobjectid="100">
+ <tileset firstgid="1" name="blocks" tilewidth="32" tileheight="32" tilecount="3" columns="3">
+  <image source="blocks.png" width="96" height="32"/>
+ </tileset>
+ <layer name="tiles" width="60" height="8">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,3,3,0,0,2,2,0,0,1,1,0,0,3,3,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,1,1,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,2,2,2,2,
+0,0,0,0,0,0,0,0,3,3,0,0,2,2,0,0,1,1,0,0,3,3,0,0,2,2,0,0,1,1,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,
+1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="82" type="crystal" x="561" y="176">
+   <ellipse/>
+  </object>
+  <object id="83" type="crystal" x="1234" y="145">
+   <ellipse/>
+  </object>
+  <object id="84" type="crystal" x="1074" y="176">
+   <ellipse/>
+  </object>
+  <object id="85" type="crystal" x="1201" y="145">
+   <ellipse/>
+  </object>
+  <object id="86" type="crystal" x="657" y="175">
+   <ellipse/>
+  </object>
+  <object id="87" type="crystal" x="528" y="176">
+   <ellipse/>
+  </object>
+  <object id="88" type="crystal" x="785" y="176">
+   <ellipse/>
+  </object>
+  <object id="89" type="crystal" x="305" y="177">
+   <ellipse/>
+  </object>
+  <object id="90" type="crystal" x="272" y="177">
+   <ellipse/>
+  </object>
+  <object id="91" type="crystal" x="434" y="176">
+   <ellipse/>
+  </object>
+  <object id="92" type="crystal" x="946" y="175">
+   <ellipse/>
+  </object>
+  <object id="93" type="crystal" x="1041" y="176">
+   <ellipse/>
+  </object>
+  <object id="94" type="crystal" x="818" y="176">
+   <ellipse/>
+  </object>
+  <object id="95" type="crystal" x="401" y="176">
+   <ellipse/>
+  </object>
+  <object id="96" type="crystal" x="913" y="175">
+   <ellipse/>
+  </object>
+  <object id="97" type="crystal" x="690" y="175">
+   <ellipse/>
+  </object>
+  <object id="98" type="bomb" x="1873" y="146">
+   <ellipse/>
+  </object>
+  <object id="99" type="bomb" x="1902" y="146">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

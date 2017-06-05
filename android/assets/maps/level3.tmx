@@ -50,6 +50,5 @@
   <object id="15" type="crystal" x="1232" y="49">
    <ellipse/>
   </object>
-  <object id="21" type="bomb" x="496" y="174"/>
  </objectgroup>
 </map>
