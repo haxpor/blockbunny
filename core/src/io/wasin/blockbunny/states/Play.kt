@@ -268,7 +268,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // set camera to follow player
         if (!screenStopper.isStopped) {
-            cam.position.set(dummyPlayer.position.x * B2DVars.PPM + Game.V_WIDTH / 4f, Game.V_HEIGHT / 2f, 0f)
+            cam.position.set(dummyPlayer.position.x * B2DVars.PPM + cam.viewportWidth / 4f, cam.viewportHeight / 2f, 0f)
             cam.update()
         }
 
