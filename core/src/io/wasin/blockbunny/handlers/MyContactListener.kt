@@ -16,6 +16,7 @@ class MyContactListener : ContactListener {
         get() = numFootContacts > 0
 
     var playerFrontCollided: Boolean = false
+    var playerBackCollided: Boolean = false
     var playerCollidedWithBomb: Boolean = false
 
     override fun beginContact(contact: Contact?) {
@@ -52,6 +53,13 @@ class MyContactListener : ContactListener {
         }
         if (fb!!.userData != null && fb!!.userData.equals("front")) {
             playerFrontCollided = true
+        }
+
+        if (fa!!.userData != null && fa!!.userData.equals("back")) {
+            playerBackCollided = true
+        }
+        if (fb!!.userData != null && fb!!.userData.equals("back")) {
+            playerBackCollided = true
         }
     }
 

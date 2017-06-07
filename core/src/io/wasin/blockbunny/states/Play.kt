@@ -207,8 +207,8 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         screenStopper.update(dt)
 
         // check to act die for player (front collided with tile)
-        if (cl.playerFrontCollided && !player.died) {
-            Gdx.app.log("Play", "Player collided with tile at front")
+        if ((cl.playerFrontCollided || cl.playerBackCollided) && !player.died) {
+            Gdx.app.log("Play", "Player collided with tile")
 
             val hit = Game.res.getSound("hit")!!
             val hitId = hit.play()
@@ -354,6 +354,18 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         fdef.filter.maskBits = B2DVars.BIT_RED
         fdef.isSensor = true
         body.createFixture(fdef).userData = "front"
+
+        // reuse
+        shape = PolygonShape()
+        fdef = FixtureDef()
+
+        // create back sensor
+        shape.setAsBox(2 / B2DVars.PPM, 6 / B2DVars.PPM, Vector2(-13 / B2DVars.PPM, 0f), 0f)
+        fdef.shape = shape
+        fdef.filter.categoryBits = B2DVars.BIT_PLAYER
+        fdef.filter.maskBits = B2DVars.BIT_RED
+        fdef.isSensor = true
+        body.createFixture(fdef).userData = "back"
 
         // create player
         player = Player(body)
@@ -504,6 +516,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         val body = player.body.fixtureList.first()
         val foot = player.body.fixtureList[1]
         val front = player.body.fixtureList[2]
+        val back = player.body.fixtureList[3]
 
         // get current bits set on player's body
         var bits = body.filterData.maskBits
@@ -539,6 +552,11 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         tmpFilterData = front.filterData
         tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv() and B2DVars.BIT_BOMB.inv()
         front.filterData = tmpFilterData
+
+        // set new mask bits to back
+        tmpFilterData = back.filterData
+        tmpFilterData.maskBits = bits and B2DVars.BIT_CRYSTAL.inv() and B2DVars.BIT_BOMB.inv()
+        back.filterData = tmpFilterData
     }
 
     private fun createBackgrounds() {
