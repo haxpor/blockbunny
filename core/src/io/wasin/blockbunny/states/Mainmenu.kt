@@ -65,19 +65,19 @@ class Mainmenu(gsm: GameStateManager): GameState(gsm) {
         // this will read it into cache, thus it will be maintained and used throughout the life
         // cycle of the game
         try {
-            println("read save file")
+            Gdx.app.log("Mainmenu", "read save file")
             game.playerSaveFileManager.readSaveFile()
         }
         catch(e: GameRuntimeException) {
             if (e.code == GameRuntimeException.SAVE_FILE_NOT_FOUND ||
                     e.code == GameRuntimeException.SAVE_FILE_EMPTY_CONTENT) {
                 // write a new fresh save file to resolve the issue
-                println("write a fresh save file")
+                Gdx.app.log("Mainmenu", "write a fresh save file")
                 game.playerSaveFileManager.writeFreshSaveFile(Settings.TOTAL_LEVELS)
             }
         }
         catch(e: SerializationException) {
-            println("save file is corrupted, rewrite a fresh one : ${e.message}")
+            Gdx.app.log("Mainmenu", "save file is corrupted, rewrite a fresh one : ${e.message}")
 
             game.playerSaveFileManager.writeFreshSaveFile(Settings.TOTAL_LEVELS)
         }

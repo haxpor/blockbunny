@@ -95,9 +95,8 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
     }
 
     private fun onLevelButtonClick(level: Int) {
-        println("clicked on ${level}")
+        Gdx.app.log("LevelSelection", "clicked on ${level}")
 
-        // TODO: Relax this for general to be able to play for all levels, not fix to 1 for safety
         when (level) {
             // check against the current possibility of all level number in current page
             in (activePage-1) * LEVEL_PER_PAGE + 1..activePage * LEVEL_PER_PAGE + 1 -> {
