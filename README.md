@@ -4,7 +4,7 @@ Libgdx-based game for Android, iOS, and PC following the tutorial by [ForeignGuy
 
 # Overview
 
-This project follows along with tutorial but code written in Kotlin `1.1.2-3` on Android Studio `2.3.2 with Gradle `2.14.1`.
+This project follows along with tutorial but code written in Kotlin `1.1.2-3` on Android Studio `2.3.2` with Gradle `2.14.1`.
 
 The assets and idea follows the original project which written in Java on Eclipse; originally based on desktop only, this project will make it buildable and runnable on Android, iOS (via multi-OS engine), and PC.
 
@@ -21,9 +21,11 @@ The assets and idea follows the original project which written in Java on Eclips
 
 # What It Looks Like
 
-![Imgur](http://i.imgur.com/05P8lh8.gif)
+![Blockbunny in action 1](http://i.imgur.com/05P8lh8.gif)
 
-![Imgur](http://i.imgur.com/k98jwnl.gif)
+![Blockbunny in action 2](http://i.imgur.com/k98jwnl.gif)
+
+![Blockbunny with controller](http://i.imgur.com/tJYqnam.gif)
 
 # What's Next?
 
