@@ -31,6 +31,34 @@ The assets and idea follows the original project which written in Java on Eclips
 
 * Add remaining level of 13-15 (as of now it's just a copied of level 12 to prevent crash if select on such levels)
 
+# Button Control
+
+## Desktop (without controller)
+
+* `Z` for jumping or enter
+* `X` for switch block
+* `Left`, `Right`, `Up`, `Down` for selecting which level to play in level selection screen
+
+## Desktop with controller
+
+This is Xbox360 layout, currently the game has no configuration screen to map button to other controllers' layout.
+
+* `A` for jumping or enter
+* `B` for switching block
+* `D-Pad` for selecting which level to play in level selection screen
+
+## Mobile (Android and iOS)
+
+### Gameplay screen
+
+* Touch on left side of the screen to jump
+* Touch on right side of the screen to switch block
+
+### Other screens
+
+* Touch to enter
+* Touch to select which level to play in level selection screen
+
 # Credits
 
 Big shout out to *ForeignGuyMike* for making a great tutorial video that this project builds upon on top of that.
