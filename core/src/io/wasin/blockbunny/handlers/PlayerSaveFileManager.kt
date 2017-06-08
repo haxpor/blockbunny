@@ -54,8 +54,8 @@ class PlayerSaveFileManager(filePath: String): ISaveFile {
             throw GameRuntimeException("Save file's content is empty. Save file might be corrupted.", GameRuntimeException.SAVE_FILE_EMPTY_CONTENT)
         }
 
-        println("save file content")
-        println(jsonString)
+        Gdx.app.log("PlayerSaveFileManager", "save file content")
+        Gdx.app.log("PlayerSaveFileManager", jsonString)
         val playerSave = json.fromJson(PlayerSave::class.java, jsonString)
         // syn to internal cache
         cache.data = playerSave
@@ -77,8 +77,8 @@ class PlayerSaveFileManager(filePath: String): ISaveFile {
     override fun writeSaveFile(data: PlayerSave, filePath: String) {
         val handle = Gdx.files.local(filePath)
         val toWriteString = json.prettyPrint(data)
-        println("Write content")
-        println(toWriteString)
+        Gdx.app.log("PlayerSaveFileManager", "Write content")
+        Gdx.app.log("PlayerSaveFileManager", toWriteString)
 
         try {
             handle.writeString(toWriteString, false)
@@ -89,7 +89,7 @@ class PlayerSaveFileManager(filePath: String): ISaveFile {
         finally {
             // sync with internal cache
             cache.data = data.copy()
-            println("synced with internal cache")
+            Gdx.app.log("PlayerSaveFileManager", "synced with internal cache")
         }
     }
 

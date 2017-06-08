@@ -27,7 +27,7 @@ The assets and idea follows the original project which written in Java on Eclips
 
 # What's Next?
 
-* Add the less of levels; level 4-15
+* Add remaining level of 13-15 (as of now it's just a copied of level 12 to prevent crash if select on such levels)
 
 # Credits
 
