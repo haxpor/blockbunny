@@ -1,3 +1,5 @@
+<a href="https://github.com/haxpor/donate"><img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat" alt="donate"></a>
+
 # blockbunny
 
 Libgdx-based game for Android, iOS, and PC following the tutorial by [ForeignGuyMike](https://www.youtube.com/channel/UC_IV37n-uBpRp64hQIwywWQ) on youtube channel starting at [this](https://www.youtube.com/watch?v=85A1w1iD2oA) but port to Kotlin with improvements, controller support, and mobile ready (iOS via MOE).
