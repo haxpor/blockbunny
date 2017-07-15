@@ -65,7 +65,7 @@ class Score(failed: Boolean, crystalsAmount: Int, maxCrystalAmount: Int, gsm: Ga
     }
 
     override fun dispose() {
-
+        font.dispose()
     }
 
     override fun resize_user(width: Int, height: Int) {

@@ -60,7 +60,11 @@ class GameStateManager(game: Game){
     }
 
     fun setState(state: Int) {
+        // dispose all gamestates first
+        this.gameStates.forEach { it.dispose() }
+        // clear all game states
         this.gameStates.clear()
+        // set new one via push
         this.pushState(state)
     }
 

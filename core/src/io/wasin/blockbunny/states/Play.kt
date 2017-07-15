@@ -311,6 +311,18 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     }
 
     override fun dispose() {
+        hud.dispose()
+        tileMap.dispose()
+        tmr.dispose()
+
+        // destroy all bodies in box2d world
+        // we need to do this first before calling dispose on World
+        val bodies = com.badlogic.gdx.utils.Array<Body>()
+        world.getBodies(bodies)
+        bodies.forEach { world.destroyBody(it) }
+        world.dispose()
+
+        b2dr.dispose()
     }
 
     private fun createPlayer() {
