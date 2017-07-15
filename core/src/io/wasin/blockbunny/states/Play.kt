@@ -102,7 +102,9 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
     }
 
     override fun resize_user(width: Int, height: Int) {
-        b2dViewport.update((width / B2DVars.PPM).toInt(), (height / B2DVars.PPM).toInt())
+        // update from updated camViewport
+        b2dViewport.update((camViewport.camera.viewportWidth / B2DVars.PPM).toInt(),
+                (camViewport.camera.viewportHeight / B2DVars.PPM).toInt())
     }
 
     fun onReachEndOfLevel() {
@@ -274,12 +276,14 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // draw bgs
         sb.projectionMatrix = hudCam.combined
+        hudViewport.apply(true)
         for (b in bgs) {
             b.render(sb)
         }
         sb.end()
 
         // draw tile map
+        camViewport.apply()
         tmr.setView(cam)
         tmr.render()
 
@@ -287,6 +291,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
         sb.begin()
         // draw player
         sb.projectionMatrix = cam.combined
+        camViewport.apply()
         player.render(sb)
 
         // draw crystals
@@ -299,6 +304,7 @@ class Play(gsm: GameStateManager) : GameState(gsm) {
 
         // draw hud
         sb.projectionMatrix = hudCam.combined
+        hudViewport.apply(true)
         hud.render(sb)
         sb.end()
 
