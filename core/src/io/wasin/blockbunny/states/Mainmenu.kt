@@ -99,6 +99,8 @@ class Mainmenu(gsm: GameStateManager): GameState(gsm) {
 
         sb.begin()
         sb.projectionMatrix = hudCam.combined
+        hudViewport.apply(true)
+
         sb.draw(bg, 0f, 0f)
 
         // draw top child blocks

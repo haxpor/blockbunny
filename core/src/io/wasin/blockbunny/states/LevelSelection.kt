@@ -233,6 +233,7 @@ class LevelSelection(gsm: GameStateManager): GameState(gsm) {
         sb.begin()
 
         sb.projectionMatrix = hudCam.combined
+        hudViewport.apply(true)
         bg.render(sb)
 
         for (b in levelButtons) {
