@@ -1,7 +1,6 @@
 package io.wasin.blockbunny.states
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.controllers.Controllers
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.TextureRegion
@@ -12,8 +11,6 @@ import com.badlogic.gdx.utils.SerializationException
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import io.wasin.blockbunny.Game
-import io.wasin.blockbunny.data.LevelResult
-import io.wasin.blockbunny.data.PlayerSave
 import io.wasin.blockbunny.entities.B2DSprite
 import io.wasin.blockbunny.handlers.*
 import kotlin.experimental.or
@@ -123,7 +120,14 @@ class Mainmenu(gsm: GameStateManager): GameState(gsm) {
     }
 
     override fun dispose() {
+        // destroy all bodies in box2d world
+        // we need to do this first before calling dispose on World
+        val bodies = com.badlogic.gdx.utils.Array<Body>()
+        world.getBodies(bodies)
+        bodies.forEach { world.destroyBody(it) }
+        world.dispose()
 
+        b2dr.dispose()
     }
 
     override fun resize_user(width: Int, height: Int) {

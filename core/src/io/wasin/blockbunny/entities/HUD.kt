@@ -3,6 +3,7 @@ package io.wasin.blockbunny.entities
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.utils.Disposable
 import io.wasin.blockbunny.Game
 import io.wasin.blockbunny.handlers.B2DVars
 import kotlin.experimental.and
@@ -10,7 +11,7 @@ import kotlin.experimental.and
 /**
  * Created by haxpor on 5/18/17.
  */
-class HUD(player: Player) {
+class HUD(player: Player): Disposable {
     private var player: Player = player
     private var blocks: Array<TextureRegion?> = Array(3, { i -> null })
     private var backBase: TextureRegion
@@ -52,5 +53,9 @@ class HUD(player: Player) {
 
         // draw text
         font.draw(sb, "${player.getNumCrystals()} / ${player.getTotalCrystals()}", 40f - backBase.regionWidth/4f + 66f + crystal.regionWidth + 30f, 200f + backBase.regionHeight/4f + crystal.regionHeight/2f - 2f)
+    }
+
+    override fun dispose() {
+        font.dispose()
     }
 }
