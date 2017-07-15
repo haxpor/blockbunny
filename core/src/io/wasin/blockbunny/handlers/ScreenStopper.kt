@@ -3,7 +3,6 @@ package io.wasin.blockbunny.handlers
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.tiled.TiledMap
-import io.wasin.blockbunny.Game
 
 /**
  * Created by haxpor on 5/29/17.
