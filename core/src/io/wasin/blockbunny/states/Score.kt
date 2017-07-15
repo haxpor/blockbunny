@@ -58,6 +58,9 @@ class Score(failed: Boolean, crystalsAmount: Int, maxCrystalAmount: Int, gsm: Ga
     }
 
     override fun render() {
+        sb.projectionMatrix = hudCam.combined
+        hudViewport.apply(true)
+
         sb.begin()
         font.draw(sb, glyph1, hudCam.viewportWidth/2f - glyph1.width/2f, hudCam.viewportHeight/2f + glyph1.height/2f + textMargin/2f)
         font.draw(sb, glyph2, hudCam.viewportWidth/2f - glyph2.width/2f, hudCam.viewportHeight/2f - glyph2.height/2f - textMargin/2f)
