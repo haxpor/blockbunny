@@ -83,6 +83,7 @@ class Game : ApplicationAdapter() {
     override fun dispose() {
         gsm.dispose()
         sb.dispose()
+        res.dispose()
     }
 
     override fun resize(width: Int, height: Int) {
