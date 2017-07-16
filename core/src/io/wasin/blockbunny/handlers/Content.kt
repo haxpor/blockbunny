@@ -4,11 +4,12 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.utils.Disposable
 
 /**
  * Created by haxpor on 5/17/17.
  */
-class Content {
+class Content: Disposable {
 
     private var textures: HashMap<String, Texture> = HashMap()
     private var sounds: HashMap<String, Sound> = HashMap()
@@ -25,7 +26,7 @@ class Content {
     }
 
     fun removeTexture(key: String) {
-        val tex = textures.get(key)
+        val tex = textures[key]
         if (tex != null) {
             textures.remove(key)
             tex.dispose()
@@ -43,7 +44,7 @@ class Content {
     }
 
     fun removeSound(key: String) {
-        val s = sounds.get(key)
+        val s = sounds[key]
         if (s != null) {
             sounds.remove(key)
             s.dispose()
@@ -61,10 +62,17 @@ class Content {
     }
 
     fun removeMusic(key: String) {
-        val m = musics.get(key)
+        val m = musics[key]
         if (m != null) {
             musics.remove(key)
             m.dispose()
         }
+    }
+
+    override fun dispose() {
+        // remove all resource
+        textures.keys.toSet().asIterable().forEach { removeTexture(it) }
+
+        // music and sound will be automatically removed
     }
 }
